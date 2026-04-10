@@ -11,10 +11,11 @@ a11y:
   openMenu: Abrir menu
   closeMenu: Fechar menu
   closeMenuOverlay: Fechar menu
-  closeContactModal: Fechar formulário de contacto
+  closeContactModal: Fechar formulário de contato
   socialNav: Redes sociais
+  timeline: Linha do tempo
 
-# Email do formulário de contacto (mailto no cliente) — alinhado ao currículo.
+# Email do formulário de contato (mailto no cliente) — alinhado ao currículo.
 contact:
   formEmail: luisgsilva260@gmail.com
 
@@ -22,49 +23,48 @@ nav:
   home: Início
   blog: Blog
   courses: Cursos
-  contact: Contacto
+  contact: Contato
 
 hero:
-  badge: Backend Python · APIs · DevOps
+  badge: Backend Python · APIs · DevOps · IA como aliada
   titleLine1: Engenharia de software
   titleGradient: focada em resolver problemas reais.
-  leadBefore: Licenciado em Computação, há mais de dois anos a desenvolver e manter software com ênfase em backend e DevOps. Uso sobretudo
-  leadNameBold: Python
-  leadAfter: ", com Django, DRF e FastAPI, e apoio-me em Linux na cloud, Docker, deploy e automatização. O meu foco é perceber o que o cliente precisa e entregar uma solução técnica rápida e direta."
-  ctaPrimary: Entrar em contacto
+  leadPara1Before: "Licenciado em Computação, com mais de dois anos de experiência em backend e DevOps. Uso sobretudo "
+  leadPara1Bold: Python
+  leadPara1After: ", com Django, DRF e FastAPI, e Linux na cloud, Docker, deploy e automatização."
+  leadPara2: "Foco em perceber o que o cliente precisa e responder com soluções técnicas rápidas e claras. Uso inteligência artificial como aliada no dia a dia (exploração, tarefas repetitivas e revisão), com decisão e responsabilidade humanas no que importa."
+  ctaPrimary: Entrar em contato
   ctaSecondary: Ler o blog
   profileAlt: Luís Gustavo Silva — desenvolvedor backend
   profileImage: /images/luis-hero.jpeg
 
-heroCode:
-  agents: "12"
-  uptime: "99.99%"
-
 authority:
   titleBefore: Da formação ao
   titleAccent: código em produção
-  body: Sou o Luís Gustavo Silva, licenciado em Computação pelo IFTO (Campus Colinas, Tocantins). Na minha experiência profissional como desenvolvedor backend, em regime remoto, aprofundei Python, APIs com Django e Django REST Framework, FastAPI, TDD, Celery, RabbitMQ e Redis — fazendo a ponte entre necessidades de clientes e a equipa de produto. Em DevOps, crio e mantenho servidores na cloud, containers com Docker, deploy em produção, CI/CD com GitHub Actions e observabilidade com Prometheus e Grafana.
-  tagline: APIs estáveis, entrega contínua e infraestrutura alinhada ao produto.
+  bodyPara1: Sou o Luís Gustavo Silva, licenciado em Computação pelo IFTO (Campus Colinas, Tocantins). Na minha experiência profissional como desenvolvedor backend, em regime remoto, aprofundei Python, APIs com Django e Django REST Framework, FastAPI, TDD, Celery, RabbitMQ e Redis, também em contextos com grandes volumes de dados, fazendo a ponte entre necessidades de clientes e a equipa de produto.
+  bodyPara2: Em DevOps, crio e mantenho servidores na cloud, containers com Docker, deploy em produção, CI/CD com GitHub Actions e observabilidade com Prometheus e Grafana.
+  bodyPara3Before: "No dia a dia, "
+  bodyPara3Highlight: integro IA como aliada da engenharia
+  bodyPara3After: ", alinhada ao produto e à qualidade, nunca como atalho em detrimento de rigor ou segurança."
+  tagline: APIs estáveis, entrega contínua, infraestrutura alinhada ao produto e IA a serviço da engenharia.
 
-stats:
-  - value: "2+"
-    label: Anos backend
-    accent: primary
-  - value: "2021"
-    label: Lic. Computação
+# Linha do tempo (secção ao lado do texto de autoridade)
+timeline:
+  - period: 2017 — 2022
+    title: Licenciatura em Computação
+    body: "Instituto Federal do Tocantins (IFTO), Campus Colinas, Tocantins: licenciatura em Computação e bases sólidas em programação e engenharia de software."
     accent: tertiary
-  - value: "2023"
-    label: Backend remoto
+  - period: 2023 — presente
+    title: Desenvolvimento backend
+    body: "Em regime remoto: manutenção e evolução de APIs em Python com Django, Django REST Framework e FastAPI; TDD; Celery, RabbitMQ e Redis; DevOps com servidores na cloud, Docker, deploy em produção, GitHub Actions, Prometheus e Grafana."
     accent: primary
-  - value: IFTO
-    label: Instituto Federal TO
-    accent: tertiary
 
 techIntro:
   title: Stack técnico principal
   subtitle: Tecnologias modernas e validadas em produção para plataformas resilientes e inteligentes.
 
-# slug = caminho Devicon (sem .svg). djangoInvert aplica o filtro branco no logo.
+# slug = caminho Devicon (sem .svg). djangoInvert / simpleIcon = filtros no tema escuro.
+# iconUrl = URL SVG quando não há ícone no Devicon (ex.: Linode via Simple Icons).
 tech:
   - name: PYTHON
     slug: python/python-original
@@ -75,6 +75,8 @@ tech:
     slug: reactnative/reactnative-original
   - name: JAVASCRIPT
     slug: javascript/javascript-original
+  - name: VUE.JS
+    slug: vuejs/vuejs-original
   - name: SQL
     slug: mysql/mysql-original
   - name: POSTGRESQL
@@ -87,6 +89,14 @@ tech:
     slug: amazonwebservices/amazonwebservices-plain-wordmark
   - name: DOCKER
     slug: docker/docker-original
+  - name: GRAFANA
+    slug: grafana/grafana-original
+  - name: PROMETHEUS
+    slug: prometheus/prometheus-original
+  - name: DIGITALOCEAN
+    slug: digitalocean/digitalocean-original
+  - name: AIRFLOW
+    slug: apacheairflow/apacheairflow-original
 
 blogIntro:
   title: Notas de engenharia

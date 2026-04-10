@@ -23,16 +23,22 @@ const SOCIAL_ICONS_CDN = 'https://cdn.jsdelivr.net/npm/simple-icons@13.16.0/icon
 
 export type StatAccent = 'primary' | 'tertiary'
 
-export interface HomeStat {
-  value: string
-  label: string
+export interface HomeTimelineItem {
+  period: string
+  title: string
+  body: string
   accent: StatAccent
 }
 
 export interface HomeTechYaml {
   name: string
-  slug: string
+  /** Caminho Devicon sem `.svg` (ex.: `python/python-original`). */
+  slug?: string
+  /** URL completa quando o ícone não existe no Devicon (ex.: Simple Icons). */
+  iconUrl?: string
   djangoInvert?: boolean
+  /** Ícone monocromático (Simple Icons): filtro para contraste no tema escuro. */
+  simpleIcon?: boolean
 }
 
 export interface HomeBlogYaml {
@@ -73,6 +79,7 @@ interface HomeFrontmatter {
     closeMenuOverlay: string
     closeContactModal: string
     socialNav: string
+    timeline: string
   }
   contact?: { formEmail: string }
   nav: { home: string; blog: string; courses: string; contact: string }
@@ -80,17 +87,26 @@ interface HomeFrontmatter {
     badge: string
     titleLine1: string
     titleGradient: string
-    leadBefore: string
-    leadNameBold: string
-    leadAfter: string
+    leadPara1Before: string
+    leadPara1Bold: string
+    leadPara1After: string
+    leadPara2: string
     ctaPrimary: string
     ctaSecondary: string
     profileAlt: string
     profileImage: string
   }
-  heroCode: { agents: string; uptime: string }
-  authority: { titleBefore: string; titleAccent: string; body: string; tagline: string }
-  stats: HomeStat[]
+  authority: {
+    titleBefore: string
+    titleAccent: string
+    bodyPara1: string
+    bodyPara2: string
+    bodyPara3Before: string
+    bodyPara3Highlight: string
+    bodyPara3After: string
+    tagline: string
+  }
+  timeline: HomeTimelineItem[]
   techIntro: { title: string; subtitle: string }
   tech: HomeTechYaml[]
   blogIntro: { title: string; subtitle: string; archiveLink: string; readCaseStudy: string }
@@ -113,9 +129,8 @@ export interface HomeCopy {
   contact: { formEmail: string }
   nav: HomeFrontmatter['nav']
   hero: HomeFrontmatter['hero']
-  heroCode: HomeFrontmatter['heroCode']
   authority: HomeFrontmatter['authority']
-  stats: HomeStat[]
+  timeline: HomeTimelineItem[]
   techIntro: HomeFrontmatter['techIntro']
   techStack: HomeTechItem[]
   blogIntro: HomeFrontmatter['blogIntro']
@@ -126,11 +141,17 @@ export interface HomeCopy {
 }
 
 function buildTechStack(rows: HomeTechYaml[]): HomeTechItem[] {
-  return rows.map((row) => ({
-    name: row.name,
-    img: `${DEVICON_CDN}/${row.slug}.svg`,
-    ...(row.djangoInvert ? { imgClass: 'tech-icon-django' } : {}),
-  }))
+  return rows.map((row) => {
+    const img = row.iconUrl ?? `${DEVICON_CDN}/${row.slug}.svg`
+    const classes = [row.djangoInvert && 'tech-icon-django', row.simpleIcon && 'tech-icon-simple'].filter(
+      Boolean,
+    ) as string[]
+    return {
+      name: row.name,
+      img,
+      ...(classes.length ? { imgClass: classes.join(' ') } : {}),
+    }
+  })
 }
 
 function buildBlogPosts(posts: HomeBlogYaml[]): HomeBlogPost[] {
@@ -159,9 +180,8 @@ export function useHomeCopy(): HomeCopy {
     contact: fm.contact ?? { formEmail: '' },
     nav: fm.nav,
     hero: fm.hero,
-    heroCode: fm.heroCode,
     authority: fm.authority,
-    stats: fm.stats,
+    timeline: fm.timeline ?? [],
     techIntro: fm.techIntro,
     techStack: buildTechStack(fm.tech),
     blogIntro: fm.blogIntro,

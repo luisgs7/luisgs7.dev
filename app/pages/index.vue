@@ -148,13 +148,16 @@
               {{ copy.hero.titleLine1 }}<br />
               <span class="text-gradient">{{ copy.hero.titleGradient }}</span>
             </h1>
-            <p
-              class="font-body text-base sm:text-lg md:text-xl text-on-surface-variant max-w-xl mb-8 sm:mb-12 leading-relaxed"
+            <div
+              class="font-body text-base sm:text-lg md:text-xl text-on-surface-variant max-w-xl mb-8 sm:mb-12 leading-relaxed space-y-4 text-justify"
             >
-              {{ copy.hero.leadBefore }}
-              <span class="text-on-surface font-bold">{{ copy.hero.leadNameBold }}</span
-              >{{ copy.hero.leadAfter }}
-            </p>
+              <p>
+                {{ copy.hero.leadPara1Before
+                }}<span class="text-on-surface font-bold">{{ copy.hero.leadPara1Bold }}</span
+                >{{ copy.hero.leadPara1After }}
+              </p>
+              <p>{{ copy.hero.leadPara2 }}</p>
+            </div>
             <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-5">
               <button
                 type="button"
@@ -188,27 +191,6 @@
               <div
                 class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60"
               />
-              <div
-                class="absolute -bottom-6 -left-6 bg-surface-container-lowest/90 backdrop-blur-xl p-6 rounded-2xl border border-primary/20 shadow-2xl max-w-xs animate-float z-10"
-              >
-                <div class="flex gap-1.5 mb-3">
-                  <div class="w-2 h-2 rounded-full bg-error/40" />
-                  <div class="w-2 h-2 rounded-full bg-tertiary/40" />
-                  <div class="w-2 h-2 rounded-full bg-primary/40" />
-                </div>
-                <code class="code-font text-[11px] text-on-surface-variant leading-relaxed">
-                  <span class="text-primary">def</span> optimize():<br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-primary">return</span> {<br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-on-surface"
-                    >"agents"</span
-                  >: <span class="text-tertiary">{{ copy.heroCode.agents }}</span>,<br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-on-surface"
-                    >"uptime"</span
-                  >:
-                  <span class="text-tertiary">"{{ copy.heroCode.uptime }}"</span>,<br />
-                  &nbsp;&nbsp;&nbsp;&nbsp;}
-                </code>
-              </div>
             </div>
             <div
               class="absolute -top-10 -right-10 w-40 h-40 border-2 border-primary/10 rounded-full animate-slow-spin"
@@ -221,7 +203,7 @@
         class="bg-surface-container-lowest/50 py-14 sm:py-20 lg:py-24 border-y border-outline-variant/10 relative overflow-hidden"
       >
         <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
             <div>
               <h2
                 class="font-headline text-3xl sm:text-4xl font-extrabold text-on-surface mb-6 sm:mb-8 tracking-tight"
@@ -230,9 +212,19 @@
                   copy.authority.titleAccent
                 }}</span>
               </h2>
-              <p class="font-body text-on-surface-variant text-base sm:text-lg leading-relaxed mb-6 sm:mb-8">
-                {{ copy.authority.body }}
-              </p>
+              <div
+                class="font-body text-on-surface-variant text-base sm:text-lg leading-relaxed mb-6 sm:mb-8 space-y-4 text-justify"
+              >
+                <p>{{ copy.authority.bodyPara1 }}</p>
+                <p>{{ copy.authority.bodyPara2 }}</p>
+                <p>
+                  {{ copy.authority.bodyPara3Before
+                  }}<span
+                    class="rounded-sm bg-primary/15 px-1.5 py-0.5 text-primary font-bold"
+                    >{{ copy.authority.bodyPara3Highlight }}</span
+                  >{{ copy.authority.bodyPara3After }}
+                </p>
+              </div>
               <div
                 class="flex items-start sm:items-center gap-3 sm:gap-4 text-primary font-bold text-sm sm:text-base"
               >
@@ -242,23 +234,54 @@
                 </span>
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-3 sm:gap-6">
+            <div
+              class="relative lg:pt-1"
+              role="list"
+              :aria-label="copy.a11y.timeline"
+            >
               <div
-                v-for="stat in copy.stats"
-                :key="stat.label"
-                class="p-4 sm:p-6 lg:p-8 bg-surface-container border-glow rounded-2xl sm:rounded-3xl border border-outline-variant/5 text-center transition-transform active:scale-[0.98] sm:hover:-translate-y-1"
+                class="absolute left-[15px] top-3 bottom-3 w-[3px] rounded-full bg-gradient-to-b from-tertiary/40 via-outline-variant/25 to-primary/40 sm:left-[17px]"
+                aria-hidden="true"
+              />
+              <div
+                v-for="item in copy.timeline"
+                :key="item.period + item.title"
+                class="relative flex gap-5 sm:gap-6 pb-5 last:pb-0 last:mb-0"
+                role="listitem"
               >
                 <div
-                  class="text-3xl sm:text-4xl lg:text-5xl font-headline font-extrabold mb-1 sm:mb-2 tabular-nums"
-                  :class="stat.accent === 'tertiary' ? 'text-tertiary' : 'text-primary'"
+                  class="relative z-[1] flex w-8 shrink-0 justify-center sm:w-9 pt-2.5"
+                  aria-hidden="true"
                 >
-                  {{ stat.value }}
+                  <span
+                    class="size-3.5 rounded-full ring-[3px] ring-surface-container-lowest/95 sm:size-4 sm:ring-4 shadow-[0_0_0_1px_rgba(255,255,255,0.06)]"
+                    :class="
+                      item.accent === 'tertiary'
+                        ? 'bg-tertiary shadow-[0_0_16px_rgba(247,190,29,0.25)]'
+                        : 'bg-primary shadow-[0_0_16px_rgba(87,241,219,0.3)]'
+                    "
+                  />
                 </div>
-                <div
-                  class="text-[9px] sm:text-[10px] font-label uppercase tracking-[0.15em] sm:tracking-[0.2em] text-on-surface-variant font-bold leading-tight"
+                <article
+                  class="min-w-0 flex-1 rounded-2xl border border-outline-variant/15 bg-surface-container/90 px-5 py-4 sm:px-6 sm:py-5 shadow-[0_4px_24px_rgba(0,0,0,0.25)] transition-[border-color,box-shadow] hover:border-outline-variant/25"
                 >
-                  {{ stat.label }}
-                </div>
+                  <p
+                    class="font-headline text-xs sm:text-sm font-extrabold tracking-wide text-on-surface mb-2 sm:mb-2.5"
+                    :class="item.accent === 'tertiary' ? 'text-tertiary' : 'text-primary'"
+                  >
+                    {{ item.period }}
+                  </p>
+                  <h3
+                    class="font-headline text-base sm:text-lg font-bold text-on-surface tracking-tight leading-snug mb-2"
+                  >
+                    {{ item.title }}
+                  </h3>
+                  <p
+                    class="font-body text-sm sm:text-[0.9375rem] text-on-surface-variant leading-relaxed"
+                  >
+                    {{ item.body }}
+                  </p>
+                </article>
               </div>
             </div>
           </div>

@@ -113,7 +113,7 @@ const props = withDefaults(
     closeLabel: string
     title?: string
   }>(),
-  { title: 'Contacto' },
+  { title: 'Contato' },
 )
 
 const emit = defineEmits<{ 'update:modelValue': [boolean] }>()
@@ -134,7 +134,7 @@ function close() {
 function onSubmit() {
   const to = props.recipientEmail.trim()
   if (!to) return
-  const subject = encodeURIComponent(`Contacto via site — ${name.value || 'visitante'}`)
+  const subject = encodeURIComponent(`Contato via site — ${name.value || 'visitante'}`)
   const body = encodeURIComponent(
     `Nome: ${name.value}\nE-mail: ${email.value}\n\n${message.value}`,
   )

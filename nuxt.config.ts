@@ -3,6 +3,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/seo', 'nuxt-og-image'],
+  site: {
+    url: 'https://luisgs7.dev',
+    name: 'Luís Gustavo Silva',
+  },
   tailwindcss: {
     cssPath: '~/assets/css/main.css',
   },

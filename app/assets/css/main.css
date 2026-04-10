@@ -51,4 +51,10 @@
   .tech-icon-django {
     filter: brightness(0) invert(1);
   }
+
+  /* Simple Icons (monocromáticos) → tom primary nos cards da stack */
+  .tech-icon-simple {
+    filter: brightness(0) saturate(100%) invert(79%) sepia(37%) saturate(2000%) hue-rotate(121deg)
+      brightness(98%) contrast(96%);
+  }
 }
