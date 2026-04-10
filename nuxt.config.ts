@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     head: {
       htmlAttrs: {
         class: 'dark',
-        lang: 'en',
+        lang: 'pt',
       },
       link: [
         {

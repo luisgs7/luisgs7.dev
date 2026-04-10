@@ -143,7 +143,7 @@
               </span>
             </div>
             <h1
-              class="font-headline text-[2.25rem] leading-[0.95] sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-extrabold tracking-tighter text-on-surface mb-6 sm:mb-8"
+              class="font-headline text-[1.75rem] leading-[0.98] sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-extrabold tracking-tighter text-on-surface mb-6 sm:mb-8"
             >
               {{ copy.hero.titleLine1 }}<br />
               <span class="text-gradient">{{ copy.hero.titleGradient }}</span>
@@ -159,6 +159,7 @@
               <button
                 type="button"
                 class="group bg-primary text-on-primary min-h-12 px-6 sm:px-10 py-3.5 sm:py-5 rounded-xl font-extrabold flex items-center justify-center gap-3 active:scale-95 transition-all shadow-2xl shadow-primary/30 hover:brightness-110 w-full sm:w-auto"
+                @click="openContact"
               >
                 {{ copy.hero.ctaPrimary }}
                 <span
@@ -181,14 +182,14 @@
             >
               <img
                 :alt="copy.hero.profileAlt"
-                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                class="w-full h-full object-cover object-[center_26%] transition-transform duration-700 group-hover:scale-105"
                 :src="copy.hero.profileImage"
               />
               <div
                 class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60"
               />
               <div
-                class="absolute -bottom-6 -left-6 bg-surface-container-lowest/90 backdrop-blur-xl p-6 rounded-2xl border border-primary/20 shadow-2xl max-w-xs animate-float"
+                class="absolute -bottom-6 -left-6 bg-surface-container-lowest/90 backdrop-blur-xl p-6 rounded-2xl border border-primary/20 shadow-2xl max-w-xs animate-float z-10"
               >
                 <div class="flex gap-1.5 mb-3">
                   <div class="w-2 h-2 rounded-full bg-error/40" />
@@ -196,13 +197,16 @@
                   <div class="w-2 h-2 rounded-full bg-primary/40" />
                 </div>
                 <code class="code-font text-[11px] text-on-surface-variant leading-relaxed">
-                  <span class="text-primary">system</span>.optimize({<br />
-                  &nbsp;&nbsp;agents: <span class="text-tertiary">{{ copy.heroCode.agents }}</span
-                  >,<br />
-                  &nbsp;&nbsp;uptime:
-                  <span class="text-tertiary">{{ copy.heroCode.uptime }}</span
-                  ><br />
-                  });
+                  <span class="text-primary">def</span> optimize():<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-primary">return</span> {<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-on-surface"
+                    >"agents"</span
+                  >: <span class="text-tertiary">{{ copy.heroCode.agents }}</span>,<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-on-surface"
+                    >"uptime"</span
+                  >:
+                  <span class="text-tertiary">"{{ copy.heroCode.uptime }}"</span>,<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;}
                 </code>
               </div>
             </div>
@@ -389,10 +393,21 @@
               <button
                 type="button"
                 class="bg-primary text-on-primary min-h-12 px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-[0_20px_50px_rgba(87,241,219,0.3)] sm:hover:scale-105 active:scale-95 transition-all w-full sm:w-auto"
+                @click="openContact"
               >
                 {{ copy.cta.primary }}
               </button>
+              <a
+                v-if="copy.cta.secondaryHref"
+                class="bg-surface-container-highest/80 backdrop-blur-md text-on-surface min-h-12 px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl border border-outline-variant/30 sm:hover:bg-surface-bright transition-all w-full sm:w-auto inline-flex items-center justify-center"
+                :href="copy.cta.secondaryHref"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ copy.cta.secondary }}
+              </a>
               <button
+                v-else
                 type="button"
                 class="bg-surface-container-highest/80 backdrop-blur-md text-on-surface min-h-12 px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl border border-outline-variant/30 sm:hover:bg-surface-bright transition-all w-full sm:w-auto"
               >
@@ -465,6 +480,17 @@
 import { computed, onUnmounted, ref, watch } from 'vue'
 
 const copy = useHomeCopy()
+
+useHead({
+  title: copy.site.title,
+  meta: [
+    {
+      name: 'description',
+      content: `Luís Gustavo Silva — backend Python, APIs (Django, FastAPI) e DevOps — ${copy.site.title}.`,
+    },
+  ],
+})
+
 const year = new Date().getFullYear()
 const mobileNavOpen = ref(false)
 const contactModalOpen = ref(false)

@@ -37,7 +37,7 @@
           <form class="flex flex-col gap-4" @submit.prevent="onSubmit">
             <div>
               <label :for="nameId" class="block text-sm font-medium text-on-surface-variant mb-1.5">
-                Name
+                Nome
               </label>
               <input
                 :id="nameId"
@@ -46,12 +46,12 @@
                 name="name"
                 autocomplete="name"
                 class="w-full rounded-xl border border-outline-variant/25 bg-surface-container-highest px-4 py-3 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/60"
-                placeholder="Your name"
+                placeholder="O seu nome"
               />
             </div>
             <div>
               <label :for="emailId" class="block text-sm font-medium text-on-surface-variant mb-1.5">
-                Email
+                E-mail
               </label>
               <input
                 :id="emailId"
@@ -61,12 +61,12 @@
                 autocomplete="email"
                 required
                 class="w-full rounded-xl border border-outline-variant/25 bg-surface-container-highest px-4 py-3 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/60"
-                placeholder="you@example.com"
+                placeholder="nome@exemplo.com"
               />
             </div>
             <div>
               <label :for="messageId" class="block text-sm font-medium text-on-surface-variant mb-1.5">
-                Message
+                Mensagem
               </label>
               <textarea
                 :id="messageId"
@@ -75,14 +75,14 @@
                 rows="4"
                 required
                 class="w-full rounded-xl border border-outline-variant/25 bg-surface-container-highest px-4 py-3 text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/60 resize-y min-h-[120px]"
-                placeholder="How can I help?"
+                placeholder="Em que posso ajudar?"
               />
             </div>
             <button
               type="submit"
               class="mt-2 w-full sm:w-auto self-center sm:self-end min-h-12 px-8 py-3 rounded-xl bg-primary text-on-primary font-headline font-bold tracking-tight shadow-[0_12px_40px_rgba(87,241,219,0.25)] hover:opacity-95 active:scale-[0.98] transition-all"
             >
-              Send
+              Enviar
             </button>
           </form>
 
@@ -113,7 +113,7 @@ const props = withDefaults(
     closeLabel: string
     title?: string
   }>(),
-  { title: 'Contact' },
+  { title: 'Contacto' },
 )
 
 const emit = defineEmits<{ 'update:modelValue': [boolean] }>()
@@ -134,9 +134,9 @@ function close() {
 function onSubmit() {
   const to = props.recipientEmail.trim()
   if (!to) return
-  const subject = encodeURIComponent(`Contact from ${name.value || 'website'}`)
+  const subject = encodeURIComponent(`Contacto via site — ${name.value || 'visitante'}`)
   const body = encodeURIComponent(
-    `Name: ${name.value}\nEmail: ${email.value}\n\n${message.value}`,
+    `Nome: ${name.value}\nE-mail: ${email.value}\n\n${message.value}`,
   )
   window.location.href = `mailto:${to}?subject=${subject}&body=${body}`
 }

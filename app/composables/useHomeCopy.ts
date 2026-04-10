@@ -95,7 +95,14 @@ interface HomeFrontmatter {
   tech: HomeTechYaml[]
   blogIntro: { title: string; subtitle: string; archiveLink: string; readCaseStudy: string }
   blogPosts: HomeBlogYaml[]
-  cta: { titleBefore: string; titleGradient: string; body: string; primary: string; secondary: string }
+  cta: {
+    titleBefore: string
+    titleGradient: string
+    body: string
+    primary: string
+    secondary: string
+    secondaryHref?: string
+  }
   footer: { brand: string; rightsName: string; rightsTagline: string }
   social: HomeSocialYaml[]
 }

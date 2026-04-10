@@ -18,16 +18,16 @@
             to="/"
             class="text-on-surface hover:text-primary transition-colors font-headline"
           >
-            Home
+            {{ copy.nav.home }}
           </NuxtLink>
           <NuxtLink
             to="/blog"
             class="text-primary border-b-2 border-primary pb-1 font-headline"
           >
-            Blog
+            {{ copy.nav.blog }}
           </NuxtLink>
           <NuxtLink to="#" class="text-on-surface hover:text-primary transition-colors font-headline">
-            Courses
+            {{ copy.nav.courses }}
           </NuxtLink>
           <button
             type="button"
@@ -48,7 +48,7 @@
             <input
               v-model="searchQuery"
               class="bg-surface-container-highest border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-primary w-52 xl:w-64 text-on-surface placeholder:text-on-surface-variant/50"
-              placeholder="Search insights..."
+              placeholder="Pesquisar artigos..."
               type="search"
               autocomplete="off"
             />
@@ -58,7 +58,7 @@
             class="md:hidden flex items-center justify-center size-11 rounded-lg text-on-surface hover:bg-surface-container-high border border-outline-variant/20"
             :aria-expanded="mobileNavOpen"
             aria-controls="blog-mobile-nav"
-            aria-label="Menu"
+            :aria-label="copy.a11y.openMenu"
             @click="mobileNavOpen = !mobileNavOpen"
           >
             <span class="material-symbols-outlined">{{ mobileNavOpen ? 'close' : 'menu' }}</span>
@@ -85,21 +85,21 @@
               class="py-3.5 px-4 rounded-xl bg-surface-container-high font-semibold"
               @click="mobileNavOpen = false"
             >
-              Home
+              {{ copy.nav.home }}
             </NuxtLink>
             <NuxtLink
               to="/blog"
               class="py-3.5 px-4 rounded-xl bg-surface-container-highest text-primary font-bold border border-primary/20"
               @click="mobileNavOpen = false"
             >
-              Blog
+              {{ copy.nav.blog }}
             </NuxtLink>
             <NuxtLink
               to="#"
               class="py-3.5 px-4 rounded-xl bg-surface-container-high font-semibold"
               @click="mobileNavOpen = false"
             >
-              Courses
+              {{ copy.nav.courses }}
             </NuxtLink>
             <button
               type="button"
@@ -112,7 +112,7 @@
           <button
             type="button"
             class="flex-1 min-h-[25vh] w-full bg-background border-0 p-0"
-            aria-label="Fechar"
+            :aria-label="copy.a11y.closeMenuOverlay"
             @click="mobileNavOpen = false"
           />
         </div>
@@ -267,11 +267,11 @@
           </div>
 
           <div class="mt-16 flex justify-center">
-            <nav class="flex items-center gap-2" aria-label="Pagination">
+            <nav class="flex items-center gap-2" aria-label="Paginação">
               <button
                 type="button"
                 class="w-10 h-10 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-primary hover:text-on-primary transition-all"
-                aria-label="Previous page"
+                aria-label="Página anterior"
               >
                 <span class="material-symbols-outlined text-lg">navigate_before</span>
               </button>
@@ -304,7 +304,7 @@
               <button
                 type="button"
                 class="w-10 h-10 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-primary hover:text-on-primary transition-all"
-                aria-label="Next page"
+                aria-label="Página seguinte"
               >
                 <span class="material-symbols-outlined text-lg">navigate_next</span>
               </button>
@@ -389,7 +389,7 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: `Engineering perspectives on architecture, AI, and full-stack — ${siteTitle}.`,
+      content: `Perspetivas de engenharia em arquitetura, IA e full-stack — ${siteTitle}.`,
     },
   ],
 })
@@ -408,10 +408,10 @@ onUnmounted(() => {
 })
 
 const hero = {
-  badge: 'System Online: v4.2.0',
-  titleLine1: 'Technical',
-  titleGradient: 'Intelligence',
-  lead: 'Exploring the intersection of high-performance architecture, generative AI, and fluid full-stack ecosystems. Engineering perspectives for the modern architect.',
+  badge: 'Sistema online: v4.2.0',
+  titleLine1: 'Inteligência',
+  titleGradient: 'técnica',
+  lead: 'No cruzamento entre arquitetura de alta performance, IA generativa e ecossistemas full-stack fluidos. Perspetivas de engenharia para o arquiteto moderno.',
   codeSnippet: `async function optimizeLogic(node) {
   const kernel = await AI.load('architecture');
   return kernel.process(node.topology).then(res => {
@@ -420,22 +420,22 @@ const hero = {
 }`,
 }
 
-const readInsightLabel = 'Read Insight'
+const readInsightLabel = 'Ler artigo'
 
 const sidebar = {
-  categoriesTitle: 'Categories',
-  newsletterTitle: 'Weekly Newsletter',
-  newsletterBlurb: 'Deep dives into technical architecture delivered every Sunday.',
-  newsletterPlaceholder: 'email@domain.com',
-  newsletterCta: 'Subscribe',
+  categoriesTitle: 'Categorias',
+  newsletterTitle: 'Newsletter semanal',
+  newsletterBlurb: 'Análises profundas de arquitetura técnica todas as semanas.',
+  newsletterPlaceholder: 'email@dominio.com',
+  newsletterCta: 'Subscrever',
 }
 
 const categories = [
-  { id: 'architecture', icon: 'architecture', label: 'Architecture', active: false },
-  { id: 'fullstack', icon: 'layers', label: 'Full-Stack', active: true },
-  { id: 'aiml', icon: 'psychology', label: 'AI & ML', active: false },
+  { id: 'architecture', icon: 'architecture', label: 'Arquitetura', active: false },
+  { id: 'fullstack', icon: 'layers', label: 'Full-stack', active: true },
+  { id: 'aiml', icon: 'psychology', label: 'IA e ML', active: false },
   { id: 'devops', icon: 'terminal', label: 'DevOps', active: false },
-  { id: 'security', icon: 'shield', label: 'Security', active: false },
+  { id: 'security', icon: 'shield', label: 'Segurança', active: false },
 ]
 
 type TagVariant = 'primary' | 'tertiary'
@@ -453,58 +453,58 @@ interface BlogPostCard {
 
 const posts: BlogPostCard[] = [
   {
-    tag: 'Architecture',
+    tag: 'Arquitetura',
     tagVariant: 'primary',
-    date: 'May 24, 2024',
-    readTime: '12 min read',
-    title: 'Scaling Distributed Systems Beyond the 10k Node Threshold',
+    date: '24 de maio de 2024',
+    readTime: '12 min de leitura',
+    title: 'Sistemas distribuídos além do limiar de 10 mil nós',
     excerpt:
-      'Exploring the thermodynamic limits of cluster orchestration and why traditional consensus algorithms fail under extreme asynchronous pressure.',
-    imageAlt: 'Modern data center server racks with neon lighting',
+      'Os limites termodinâmicos da orquestração em cluster e por que os algoritmos de consenso clássicos falham sob pressão assíncrona extrema.',
+    imageAlt: 'Bastidores de datacenter com iluminação néon',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuA3dobgQpaIdm6f6NrgYAkiWW2_7iDDzfADu9XcG5GyXDHg18E1aXUf8M5IApWZaw-BBk8_l5PPb-V9irPLfAMqciVOxmsI91f8AZZrZ6lCQQQjxwETCu00x5CL62Zo9HfSKuaRQ2bIdVba_FUoNx01FRNhGQC9a3tvNJrcc4kEbI9j807GzR1qyQhMHgEqy0ul8xmJEmfn-U6Q4Hjfc6M-93nyvULw8E-7RQFzEJedgHu__VBV3nvaeG-nGVT4VNmUjq4RpSAvMZ4',
   },
   {
-    tag: 'AI & ML',
+    tag: 'IA e ML',
     tagVariant: 'tertiary',
-    date: 'May 18, 2024',
-    readTime: '8 min read',
-    title: 'LLMs in Production: From RAG to Agentic Workflows',
+    date: '18 de maio de 2024',
+    readTime: '8 min de leitura',
+    title: 'LLMs em produção: de RAG a fluxos de agentes',
     excerpt:
-      'Why retrieval augmented generation is just the base layer. Implementing autonomous agent loops for complex multi-step reasoning.',
-    imageAlt: 'Abstract neural network visualization',
+      'Porque a geração aumentada por recuperação é só a base. Implementação de ciclos autónomos de agentes para raciocínio multi-passo.',
+    imageAlt: 'Visualização abstrata de rede neuronal',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuAzq4l9iTgx3uqOO2sLZs9fxaUZYxRjrzi1Fiyto3-RcetMvmkmu5dWVwRuCcumh9tkZzm-96bzBW7PzRcwvgrtpl44JOQ6k_PhegRDQgirjug2KbKtV8F-hVXue4lLUADfUVlyDridrAO8J5DZVCr5TdkJhR6un1lK1cAP6_hl5pI6QrhWoKanUFZZ_nD-iyQB2EVzUfiXZivdbiJQGEZ2OD8Y3ciUKvyu2yHTKtRcN07gwjVRv7ZmMKaK41qo96Fd9cQBJF7j0gg',
   },
   {
-    tag: 'Full-Stack',
+    tag: 'Full-stack',
     tagVariant: 'primary',
-    date: 'May 12, 2024',
-    readTime: '15 min read',
-    title: 'The Death of the Virtual DOM: Fine-grained Reactivity',
+    date: '12 de maio de 2024',
+    readTime: '15 min de leitura',
+    title: 'O fim do Virtual DOM: reactividade fina',
     excerpt:
-      'Analyzing the shift towards signal-based reactivity and how it redefines state management across the modern web stack.',
-    imageAlt: 'Microchip circuit board close-up',
+      'A transição para reactividade baseada em sinais e o impacto na gestão de estado na web moderna.',
+    imageAlt: 'Circuito eletrónico em close-up',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuBxs7U34ZiLWfXKvYM08WVByrsLKqCG4g6wCdLLf7t88KbUrsHXOAOCSgG2oouhlX3YIc6bdCMu0a0k181ntg9DlFuQmOtYmJW_BbHyw7KZ0fN5Eny9C7C2I492iuE8Yva4Y8mt6oKOf-H8BWHxViBpUIupL30FAw8dqeu9D_jvOjK0tpNN3zdKNEK-ORrf0gcJrzmlmWcaD7IfjZ7zTTO7jhH98pcD62qDpzVJVBJHl7pkwAYGVY7iHpPySzjpQ4fHuGCJfRrz2V8',
   },
   {
     tag: 'DevOps',
     tagVariant: 'primary',
-    date: 'May 05, 2024',
-    readTime: '10 min read',
-    title: 'Platform Engineering vs. Traditional SRE',
+    date: '5 de maio de 2024',
+    readTime: '10 min de leitura',
+    title: 'Platform Engineering versus SRE tradicional',
     excerpt:
-      'Building Internal Developer Platforms (IDPs) to reduce cognitive load without sacrificing operational excellence.',
-    imageAlt: 'Code on screen with syntax highlighting',
+      'Plataformas internas para programadores (IDP) que reduzem a carga cognitiva sem sacrificar excelência operacional.',
+    imageAlt: 'Código no ecrã com realce de sintaxe',
     image:
       'https://lh3.googleusercontent.com/aida-public/AB6AXuDKq90Gdn0O7Q_RSbM1fq16zf0Fh_ToPfm3oV0n9bXaLFHXDia2af8penkqJkq6astIjM3cXvtQeJ-wMnngljLTPNhgq_5SefZxuFeoYhm9rZLRJlwNn2TouXc66JlF5871RbfgZFuEkscdsIqdvXr62q-cw8Hd62b4W6Oit-N3oRoPHVltcHHWd-gV8lENPmjMvt_2JqZKPkMviCjU4sCJCCUREHlvXx2b_tQtvUa3mJjuLlkCpIU4UNvxvfqIbFqj6O082anzvb4',
   },
 ]
 
 const footer = {
-  brand: 'luisgs7.dev',
-  rightsLine: 'luisgs7.dev. Built with precision.',
-  availability: 'Available for selective projects',
+  brand: copy.footer.brand,
+  rightsLine: `${copy.footer.rightsName}. ${copy.footer.rightsTagline}`,
+  availability: 'Disponível para projetos selecionados',
 }
 </script>
