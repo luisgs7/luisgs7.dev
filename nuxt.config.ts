@@ -1,8 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/seo', 'nuxt-og-image'],
+  devtools: { enabled: process.env.NODE_ENV === 'development' },
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/fonts', '@nuxt/image', '@nuxtjs/seo', 'nuxt-og-image'],
   site: {
     url: 'https://luisgs7.dev',
     name: 'Luís Gustavo Silva',
@@ -10,22 +10,68 @@ export default defineNuxtConfig({
   tailwindcss: {
     cssPath: '~/assets/css/main.css',
   },
+  fonts: {
+    families: [
+      {
+        name: 'Manrope',
+        provider: 'google',
+        weights: [400, 600, 700, 800],
+        subsets: ['latin', 'latin-ext'],
+      },
+      {
+        name: 'Inter',
+        provider: 'google',
+        weights: [400, 500, 600],
+        subsets: ['latin', 'latin-ext'],
+      },
+      {
+        name: 'Space Grotesk',
+        provider: 'google',
+        weights: [400, 500, 700],
+        subsets: ['latin', 'latin-ext'],
+      },
+      { name: 'JetBrains Mono', provider: 'google', weights: [400], subsets: ['latin'] },
+    ],
+  },
+  image: {
+    quality: 78,
+    format: ['webp', 'jpeg'],
+    domains: ['lh3.googleusercontent.com'],
+    screens: {
+      xs: 360,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+    },
+    presets: {
+      hero: {
+        modifiers: {
+          fit: 'cover',
+        },
+      },
+    },
+  },
+  nitro: {
+    compressPublicAssets: true,
+    routeRules: {
+      '/images/**': {
+        headers: { 'cache-control': 'public, max-age=31536000, immutable' },
+      },
+      '/_nuxt/**': {
+        headers: { 'cache-control': 'public, max-age=31536000, immutable' },
+      },
+      '/_ipx/**': {
+        headers: { 'cache-control': 'public, max-age=86400' },
+      },
+    },
+  },
   app: {
     head: {
       htmlAttrs: {
         class: 'dark',
         lang: 'pt',
       },
-      link: [
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono&display=swap',
-        },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap',
-        },
-      ],
     },
   },
 })

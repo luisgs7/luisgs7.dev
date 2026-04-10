@@ -40,11 +40,11 @@
 
         <div class="flex items-center gap-3 sm:gap-6 shrink-0">
           <div class="relative hidden lg:block">
-            <span
-              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm pointer-events-none"
-            >
-              search
-            </span>
+            <Search
+              class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-on-surface-variant pointer-events-none"
+              aria-hidden="true"
+              stroke-width="2"
+            />
             <input
               v-model="searchQuery"
               class="bg-surface-container-highest border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-primary w-52 xl:w-64 text-on-surface placeholder:text-on-surface-variant/50"
@@ -61,7 +61,8 @@
             :aria-label="copy.a11y.openMenu"
             @click="mobileNavOpen = !mobileNavOpen"
           >
-            <span class="material-symbols-outlined">{{ mobileNavOpen ? 'close' : 'menu' }}</span>
+            <X v-if="mobileNavOpen" class="size-6 shrink-0" aria-hidden="true" stroke-width="2" />
+            <Menu v-else class="size-6 shrink-0" aria-hidden="true" stroke-width="2" />
           </button>
         </div>
       </div>
@@ -178,7 +179,12 @@
                       : 'text-on-surface/60 hover:bg-surface-container-high hover:text-primary'
                   "
                 >
-                  <span class="material-symbols-outlined text-lg">{{ cat.icon }}</span>
+                  <component
+                    :is="cat.icon"
+                    class="size-5 shrink-0"
+                    aria-hidden="true"
+                    stroke-width="2"
+                  />
                   {{ cat.label }}
                 </a>
               </nav>
@@ -186,7 +192,7 @@
             <div
               class="bg-gradient-to-br from-surface-container-high to-surface-container-low p-6 rounded-xl border border-outline-variant/5"
             >
-              <span class="material-symbols-outlined text-tertiary mb-4">auto_awesome</span>
+              <Sparkles class="size-6 text-tertiary mb-4" aria-hidden="true" stroke-width="2" />
               <h4 class="font-headline font-bold text-on-surface mb-2">
                 {{ sidebar.newsletterTitle }}
               </h4>
@@ -218,10 +224,14 @@
               class="group bg-surface-container-high rounded-xl overflow-hidden hover:bg-surface-bright transition-all duration-300 hover:scale-[1.01]"
             >
               <div class="aspect-video w-full bg-surface-container-lowest relative overflow-hidden">
-                <img
-                  :alt="post.imageAlt"
-                  class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity"
+                <NuxtImg
                   :src="post.image"
+                  :alt="post.imageAlt"
+                  width="800"
+                  height="450"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
+                  class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity"
+                  format="webp"
                   loading="lazy"
                 />
                 <div class="absolute top-4 left-4">
@@ -260,7 +270,7 @@
                   href="#"
                 >
                   {{ readInsightLabel }}
-                  <span class="material-symbols-outlined text-sm">chevron_right</span>
+                  <ChevronRight class="size-4 shrink-0" aria-hidden="true" stroke-width="2.25" />
                 </a>
               </div>
             </article>
@@ -273,7 +283,7 @@
                 class="w-10 h-10 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-primary hover:text-on-primary transition-all"
                 aria-label="Página anterior"
               >
-                <span class="material-symbols-outlined text-lg">navigate_before</span>
+                <ChevronLeft class="size-5 shrink-0" aria-hidden="true" stroke-width="2" />
               </button>
               <button
                 type="button"
@@ -306,7 +316,7 @@
                 class="w-10 h-10 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-primary hover:text-on-primary transition-all"
                 aria-label="Página seguinte"
               >
-                <span class="material-symbols-outlined text-lg">navigate_next</span>
+                <ChevronRight class="size-5 shrink-0" aria-hidden="true" stroke-width="2" />
               </button>
             </nav>
           </div>
@@ -367,7 +377,23 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted, ref, watch } from 'vue'
+import type { Component } from 'vue'
+import {
+  BrainCircuit,
+  Building2,
+  ChevronLeft,
+  ChevronRight,
+  Layers,
+  Menu,
+  Search,
+  Shield,
+  Sparkles,
+  Terminal,
+  X,
+} from 'lucide-vue-next'
+import { computed, defineAsyncComponent, onUnmounted, ref, watch } from 'vue'
+
+const ContactModal = defineAsyncComponent(() => import('~/components/ContactModal.vue'))
 
 const copy = useHomeCopy()
 const siteTitle = copy.site.title
@@ -430,12 +456,12 @@ const sidebar = {
   newsletterCta: 'Subscrever',
 }
 
-const categories = [
-  { id: 'architecture', icon: 'architecture', label: 'Arquitetura', active: false },
-  { id: 'fullstack', icon: 'layers', label: 'Full-stack', active: true },
-  { id: 'aiml', icon: 'psychology', label: 'IA e ML', active: false },
-  { id: 'devops', icon: 'terminal', label: 'DevOps', active: false },
-  { id: 'security', icon: 'shield', label: 'Segurança', active: false },
+const categories: { id: string; icon: Component; label: string; active: boolean }[] = [
+  { id: 'architecture', icon: Building2, label: 'Arquitetura', active: false },
+  { id: 'fullstack', icon: Layers, label: 'Full-stack', active: true },
+  { id: 'aiml', icon: BrainCircuit, label: 'IA e ML', active: false },
+  { id: 'devops', icon: Terminal, label: 'DevOps', active: false },
+  { id: 'security', icon: Shield, label: 'Segurança', active: false },
 ]
 
 type TagVariant = 'primary' | 'tertiary'

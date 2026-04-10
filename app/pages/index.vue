@@ -50,9 +50,8 @@
             :aria-label="copy.a11y.openMenu"
             @click="mobileNavOpen = !mobileNavOpen"
           >
-            <span class="material-symbols-outlined text-2xl" aria-hidden="true">
-              {{ mobileNavOpen ? 'close' : 'menu' }}
-            </span>
+            <X v-if="mobileNavOpen" class="size-6 shrink-0" aria-hidden="true" stroke-width="2" />
+            <Menu v-else class="size-6 shrink-0" aria-hidden="true" stroke-width="2" />
           </button>
         </div>
       </nav>
@@ -129,9 +128,9 @@
           />
         </div>
         <div
-          class="max-w-7xl mx-auto px-4 sm:px-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center relative z-10"
+          class="max-w-7xl mx-auto px-4 sm:px-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16 items-center relative z-10"
         >
-          <div class="lg:col-span-7">
+          <div class="lg:col-span-7 order-2 lg:order-none min-w-0">
             <div
               class="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-surface-container-high border border-outline-variant/20 mb-6 sm:mb-8 backdrop-blur-sm max-w-full"
             >
@@ -165,11 +164,11 @@
                 @click="openContact"
               >
                 {{ copy.hero.ctaPrimary }}
-                <span
-                  class="material-symbols-outlined group-hover:translate-x-1 transition-transform"
-                >
-                  arrow_forward
-                </span>
+                <ArrowRight
+                  class="size-5 shrink-0 group-hover:translate-x-1 transition-transform"
+                  aria-hidden="true"
+                  stroke-width="2.25"
+                />
               </button>
               <NuxtLink
                 to="/blog"
@@ -179,21 +178,31 @@
               </NuxtLink>
             </div>
           </div>
-          <div class="lg:col-span-5 relative hidden lg:block">
+          <div
+            class="lg:col-span-5 relative order-1 lg:order-none w-full max-w-[min(100%,320px)] sm:max-w-[min(100%,380px)] mx-auto lg:max-w-none shrink-0"
+          >
             <div
-              class="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.5)] border border-outline-variant/20 group"
+              class="relative w-full aspect-[3/4] sm:aspect-[4/5] lg:aspect-[4/5] rounded-3xl sm:rounded-[2rem] overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.45)] lg:shadow-[0_0_80px_rgba(0,0,0,0.5)] border border-outline-variant/20 group"
             >
-              <img
-                :alt="copy.hero.profileAlt"
-                class="w-full h-full object-cover object-[center_26%] transition-transform duration-700 group-hover:scale-105"
+              <NuxtImg
                 :src="copy.hero.profileImage"
+                :alt="copy.hero.profileAlt"
+                width="720"
+                height="900"
+                sizes="(max-width: 1023px) 384px, 560px"
+                class="w-full h-full object-cover object-[center_22%] sm:object-[center_26%] transition-transform duration-700 lg:group-hover:scale-105"
+                preset="hero"
+                format="webp"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
               />
               <div
-                class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60"
+                class="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-50 sm:opacity-60 lg:from-background"
               />
             </div>
             <div
-              class="absolute -top-10 -right-10 w-40 h-40 border-2 border-primary/10 rounded-full animate-slow-spin"
+              class="hidden lg:block absolute -top-10 -right-10 w-40 h-40 border-2 border-primary/10 rounded-full animate-slow-spin"
             />
           </div>
         </div>
@@ -228,7 +237,7 @@
               <div
                 class="flex items-start sm:items-center gap-3 sm:gap-4 text-primary font-bold text-sm sm:text-base"
               >
-                <span class="material-symbols-outlined shrink-0 mt-0.5 sm:mt-0">verified</span>
+                <BadgeCheck class="size-5 sm:size-6 shrink-0 mt-0.5 sm:mt-0 text-primary" aria-hidden="true" stroke-width="2" />
                 <span class="tracking-wide leading-snug">
                   {{ copy.authority.tagline }}
                 </span>
@@ -341,9 +350,11 @@
               class="text-primary font-bold inline-flex items-center gap-2 group text-base sm:text-lg py-2 -ml-1 md:ml-0 min-h-11"
             >
               {{ copy.blogIntro.archiveLink }}
-              <span class="material-symbols-outlined transition-transform group-hover:translate-x-2">
-                arrow_right_alt
-              </span>
+              <ArrowBigRight
+                class="size-5 sm:size-6 shrink-0 transition-transform group-hover:translate-x-2"
+                aria-hidden="true"
+                stroke-width="2"
+              />
             </NuxtLink>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
@@ -387,7 +398,7 @@
                   class="inline-flex items-center min-h-11 text-sm font-bold gap-2 text-primary sm:hover:gap-3 transition-all py-1 -mx-1 px-1 rounded-lg"
                 >
                   {{ copy.blogIntro.readCaseStudy }}
-                  <span class="material-symbols-outlined text-lg">chevron_right</span>
+                  <ChevronRight class="size-[1.125rem] shrink-0" aria-hidden="true" stroke-width="2.25" />
                 </NuxtLink>
               </div>
             </article>
@@ -500,7 +511,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onUnmounted, ref, watch } from 'vue'
+import {
+  ArrowBigRight,
+  ArrowRight,
+  BadgeCheck,
+  ChevronRight,
+  Menu,
+  X,
+} from 'lucide-vue-next'
+import { computed, defineAsyncComponent, onUnmounted, ref, watch } from 'vue'
+
+const ContactModal = defineAsyncComponent(() => import('~/components/ContactModal.vue'))
 
 const copy = useHomeCopy()
 

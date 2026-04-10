@@ -30,7 +30,7 @@
               :aria-label="closeLabel"
               @click="close"
             >
-              <span class="material-symbols-outlined text-2xl" aria-hidden="true">close</span>
+              <X class="size-6 shrink-0" aria-hidden="true" stroke-width="2" />
             </button>
           </div>
 
@@ -103,6 +103,7 @@
 </template>
 
 <script setup lang="ts">
+import { X } from 'lucide-vue-next'
 import { useId, ref, watch } from 'vue'
 
 const props = withDefaults(
