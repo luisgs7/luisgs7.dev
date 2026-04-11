@@ -38,7 +38,7 @@ export default defineNuxtConfig({
     ],
   },
   image: {
-    quality: 72,
+    quality: 68,
     format: ['avif', 'webp', 'jpeg'],
     domains: ['lh3.googleusercontent.com', 'images.unsplash.com'],
     screens: {
@@ -52,7 +52,7 @@ export default defineNuxtConfig({
       hero: {
         modifiers: {
           fit: 'cover',
-          quality: 66,
+          quality: 60,
         },
       },
     },
@@ -77,6 +77,18 @@ export default defineNuxtConfig({
       htmlAttrs: {
         class: 'dark',
         lang: 'pt',
+      },
+      link: [
+        { rel: 'dns-prefetch', href: 'https://cdn.jsdelivr.net' },
+        { rel: 'dns-prefetch', href: 'https://fonts.gstatic.com' },
+      ],
+    },
+  },
+  experimental: {
+    defaults: {
+      nuxtLink: {
+        // Evita prefetch ao entrar na viewport (menos JS “não usado” no Lighthouse).
+        prefetchOn: { visibility: false, interaction: true },
       },
     },
   },
