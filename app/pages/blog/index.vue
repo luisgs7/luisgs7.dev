@@ -26,7 +26,10 @@
           >
             {{ copy.nav.blog }}
           </NuxtLink>
-          <NuxtLink to="#" class="text-on-surface hover:text-primary transition-colors font-headline">
+          <NuxtLink
+            to="/cursos"
+            class="text-on-surface hover:text-primary transition-colors font-headline"
+          >
             {{ copy.nav.courses }}
           </NuxtLink>
           <button
@@ -51,6 +54,7 @@
               placeholder="Pesquisar artigos..."
               type="search"
               autocomplete="off"
+              aria-label="Pesquisar artigos por título ou texto do conteúdo"
             />
           </div>
           <button
@@ -96,7 +100,7 @@
               {{ copy.nav.blog }}
             </NuxtLink>
             <NuxtLink
-              to="#"
+              to="/cursos"
               class="py-3.5 px-4 rounded-xl bg-surface-container-high font-semibold"
               @click="mobileNavOpen = false"
             >
@@ -123,39 +127,110 @@
     <main
       class="pt-[calc(4rem+env(safe-area-inset-top,0px))] sm:pt-[calc(5rem+env(safe-area-inset-top,0px))]"
     >
-      <header class="relative overflow-hidden bg-background py-16 sm:py-24 lg:py-32">
-        <div class="absolute inset-0 opacity-20 pointer-events-none" aria-hidden="true">
+      <header class="relative overflow-hidden bg-background py-12 sm:py-16 lg:py-20 xl:py-24">
+        <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div
-            class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/10 to-transparent"
+            class="absolute top-0 right-0 h-full w-[min(55%,720px)] bg-gradient-to-l from-primary/[0.12] via-primary/[0.04] to-transparent"
+          />
+          <div
+            class="absolute top-12 right-[8%] h-[min(70vh,520px)] w-[min(90vw,480px)] rounded-full bg-tertiary/[0.06] blur-[100px]"
+          />
+          <div
+            class="absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] [background-size:48px_48px] [mask-image:linear-gradient(to_left,black_20%,transparent_75%)]"
           />
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <div
-            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-outline-variant/20 border border-outline-variant/15 mb-6"
+            class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 xl:gap-16 items-start lg:items-center"
           >
-            <span class="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span class="font-label text-[10px] uppercase tracking-[0.2em] text-primary">
-              {{ hero.badge }}
-            </span>
-          </div>
-          <h1
-            class="text-4xl sm:text-6xl md:text-8xl font-headline font-extrabold tracking-tight leading-[0.9] mb-8"
-          >
-            {{ hero.titleLine1 }}<br />
-            <span
-              class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-tertiary"
-              >{{ hero.titleGradient }}</span
-            >
-          </h1>
-          <p class="max-w-xl text-on-surface-variant text-base sm:text-lg leading-relaxed">
-            {{ hero.lead }}
-          </p>
-        </div>
-        <div class="absolute -right-20 bottom-10 hidden xl:block opacity-40 pointer-events-none">
-          <div
-            class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 code-font text-xs text-primary/70 transform rotate-2 max-w-md"
-          >
-            <pre class="whitespace-pre-wrap"><code>{{ hero.codeSnippet }}</code></pre>
+            <div class="min-w-0">
+              <div
+                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-outline-variant/20 border border-outline-variant/15 mb-6"
+              >
+                <span class="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                <span class="font-label text-[10px] uppercase tracking-[0.2em] text-primary">
+                  {{ hero.badge }}
+                </span>
+              </div>
+              <h1
+                class="text-4xl sm:text-6xl md:text-7xl xl:text-8xl font-headline font-extrabold tracking-tight leading-[0.92] mb-6 sm:mb-8"
+              >
+                {{ hero.titleLine1 }}<br />
+                <span
+                  class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-tertiary"
+                  >{{ hero.titleGradient }}</span
+                >
+              </h1>
+              <p
+                class="text-on-surface-variant text-base sm:text-lg leading-relaxed max-w-2xl border-l-2 border-primary/25 pl-4 sm:pl-5"
+              >
+                {{ hero.lead }}
+              </p>
+              <div
+                v-if="heroTopicFilters.length || postCount > 0"
+                class="flex flex-wrap gap-2 sm:gap-3 mt-8 sm:mt-10"
+                role="group"
+                :aria-label="'Filtrar artigos por tema'"
+              >
+                <button
+                  v-if="postCount > 0"
+                  type="button"
+                  class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-[11px] sm:text-xs font-label uppercase tracking-widest transition-colors min-h-10"
+                  :class="
+                    selectedTopicId === null
+                      ? 'bg-primary/15 border-primary/40 text-primary ring-1 ring-primary/25'
+                      : 'bg-surface-container-high/80 border-outline-variant/15 text-on-surface-variant hover:border-outline-variant/30'
+                  "
+                  :aria-pressed="selectedTopicId === null"
+                  @click="selectedTopicId = null"
+                >
+                  <span class="size-1.5 rounded-full bg-primary shrink-0" aria-hidden="true" />
+                  {{ postCount }} {{ postCount === 1 ? 'artigo' : 'artigos' }}
+                </button>
+                <button
+                  v-for="topic in heroTopicFilters"
+                  :key="topic.id"
+                  type="button"
+                  class="px-3 py-1.5 rounded-lg border text-[11px] sm:text-xs font-medium transition-colors min-h-10"
+                  :class="
+                    selectedTopicId === topic.id
+                      ? 'bg-primary/15 border-primary/40 text-primary ring-1 ring-primary/25'
+                      : 'bg-surface-container-highest/50 border-outline-variant/10 text-on-surface-variant/90 hover:border-outline-variant/25'
+                  "
+                  :aria-pressed="selectedTopicId === topic.id"
+                  :aria-label="`Filtrar por ${topic.label}`"
+                  @click="selectedTopicId = topic.id"
+                >
+                  {{ topic.label }}
+                </button>
+              </div>
+            </div>
+            <div class="relative min-w-0 w-full lg:max-w-none">
+              <div
+                class="absolute -inset-1 rounded-2xl bg-gradient-to-br from-primary/20 via-transparent to-tertiary/15 opacity-80 blur-sm pointer-events-none"
+                aria-hidden="true"
+              />
+              <div
+                class="relative bg-surface-container-lowest/95 backdrop-blur-sm p-5 sm:p-6 lg:p-7 rounded-xl border border-outline-variant/15 code-font text-[11px] sm:text-xs text-primary/80 shadow-[0_24px_48px_rgba(0,0,0,0.35)] lg:rotate-[1deg]"
+              >
+                <div
+                  class="flex items-center gap-2 mb-3 pb-3 border-b border-outline-variant/10 text-[10px] text-on-surface-variant/70 font-sans"
+                >
+                  <span class="flex gap-1.5" aria-hidden="true">
+                    <span class="size-2.5 rounded-full bg-red-500/80" />
+                    <span class="size-2.5 rounded-full bg-amber-500/80" />
+                    <span class="size-2.5 rounded-full bg-emerald-500/80" />
+                  </span>
+                  <span class="font-mono tracking-wide">models.py</span>
+                </div>
+                <pre class="whitespace-pre-wrap overflow-x-auto m-0"><code>{{ hero.codeSnippet }}</code></pre>
+              </div>
+              <p
+                class="mt-4 text-[11px] text-on-surface-variant/50 font-label uppercase tracking-widest text-center lg:text-right"
+              >
+                {{ hero.codeCaption }}
+              </p>
+            </div>
           </div>
         </div>
       </header>
@@ -163,32 +238,6 @@
       <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24 flex flex-col md:flex-row gap-10 md:gap-12">
         <aside class="w-full md:w-64 shrink-0 order-2 md:order-1">
           <div class="md:sticky md:top-28 space-y-8">
-            <div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/5">
-              <h3 class="font-label text-xs uppercase tracking-widest text-tertiary mb-6">
-                {{ sidebar.categoriesTitle }}
-              </h3>
-              <nav class="flex flex-col gap-1">
-                <a
-                  v-for="cat in categories"
-                  :key="cat.id"
-                  href="#"
-                  class="flex items-center gap-3 px-4 py-3 rounded-md transition-all group font-label text-sm uppercase tracking-widest"
-                  :class="
-                    cat.active
-                      ? 'text-primary bg-surface-container-highest'
-                      : 'text-on-surface/60 hover:bg-surface-container-high hover:text-primary'
-                  "
-                >
-                  <component
-                    :is="cat.icon"
-                    class="size-5 shrink-0"
-                    aria-hidden="true"
-                    stroke-width="2"
-                  />
-                  {{ cat.label }}
-                </a>
-              </nav>
-            </div>
             <div
               class="bg-gradient-to-br from-surface-container-high to-surface-container-low p-6 rounded-xl border border-outline-variant/5"
             >
@@ -217,22 +266,40 @@
         </aside>
 
         <div class="flex-grow min-w-0 order-1 md:order-2">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <article
-              v-for="post in posts"
-              :key="post.title"
-              class="group bg-surface-container-high rounded-xl overflow-hidden hover:bg-surface-bright transition-all duration-300 hover:scale-[1.01]"
+          <p
+            v-if="selectedTopicId !== null && postCount > 0"
+            class="text-xs font-label text-on-surface-variant mb-4 uppercase tracking-widest"
+            aria-live="polite"
+          >
+            A mostrar {{ visibleCount }}
+            {{ visibleCount === 1 ? 'artigo' : 'artigos' }}
+            <span v-if="visibleCount < postCount"> ({{ postCount }} no total) </span>
+          </p>
+          <p
+            v-if="!displayedPosts.length && postCount > 0"
+            class="text-sm text-on-surface-variant mb-6 py-8 text-center border border-dashed border-outline-variant/25 rounded-xl"
+          >
+            Nenhum artigo corresponde a esta pesquisa ou filtro.
+          </p>
+          <div v-if="displayedPosts.length" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <NuxtLink
+              v-for="post in displayedPosts"
+              :key="post.path"
+              :to="post.path"
+              class="group block bg-surface-container-high rounded-xl overflow-hidden hover:bg-surface-bright transition-all duration-300 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/80 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <div class="aspect-video w-full bg-surface-container-lowest relative overflow-hidden">
-                <NuxtImg
+                <NuxtPicture
                   :src="post.image"
                   :alt="post.imageAlt"
                   width="800"
                   height="450"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
-                  class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity"
-                  format="webp"
                   loading="lazy"
+                  :img-attrs="{
+                    class:
+                      'w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity',
+                  }"
                 />
                 <div class="absolute top-4 left-4">
                   <span
@@ -250,11 +317,7 @@
               <div class="p-6 sm:p-8">
                 <div class="flex flex-wrap items-center gap-4 mb-4">
                   <span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">
-                    {{ post.date }}
-                  </span>
-                  <span class="w-1 h-1 rounded-full bg-outline-variant shrink-0" />
-                  <span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">
-                    {{ post.readTime }}
+                    {{ formatArticleDate(post.date) }}
                   </span>
                 </div>
                 <h2
@@ -265,60 +328,14 @@
                 <p class="text-on-surface-variant text-sm leading-relaxed mb-6 line-clamp-3">
                   {{ post.excerpt }}
                 </p>
-                <a
-                  class="inline-flex items-center gap-2 text-primary font-label text-xs uppercase tracking-widest font-bold hover:gap-3 transition-all"
-                  href="#"
+                <span
+                  class="inline-flex items-center gap-2 text-primary font-label text-xs uppercase tracking-widest font-bold sm:group-hover:gap-3 transition-all"
                 >
                   {{ readInsightLabel }}
                   <ChevronRight class="size-4 shrink-0" aria-hidden="true" stroke-width="2.25" />
-                </a>
+                </span>
               </div>
-            </article>
-          </div>
-
-          <div class="mt-16 flex justify-center">
-            <nav class="flex items-center gap-2" aria-label="Paginação">
-              <button
-                type="button"
-                class="w-10 h-10 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-primary hover:text-on-primary transition-all"
-                aria-label="Página anterior"
-              >
-                <ChevronLeft class="size-5 shrink-0" aria-hidden="true" stroke-width="2" />
-              </button>
-              <button
-                type="button"
-                class="w-10 h-10 flex items-center justify-center rounded bg-primary text-on-primary font-label text-xs font-bold"
-                aria-current="page"
-              >
-                1
-              </button>
-              <button
-                type="button"
-                class="w-10 h-10 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-bright transition-all font-label text-xs"
-              >
-                2
-              </button>
-              <button
-                type="button"
-                class="w-10 h-10 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-bright transition-all font-label text-xs"
-              >
-                3
-              </button>
-              <span class="px-2 text-outline-variant font-label text-xs">...</span>
-              <button
-                type="button"
-                class="w-10 h-10 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-bright transition-all font-label text-xs"
-              >
-                12
-              </button>
-              <button
-                type="button"
-                class="w-10 h-10 flex items-center justify-center rounded bg-surface-container-high text-on-surface-variant hover:bg-primary hover:text-on-primary transition-all"
-                aria-label="Página seguinte"
-              >
-                <ChevronRight class="size-5 shrink-0" aria-hidden="true" stroke-width="2" />
-              </button>
-            </nav>
+            </NuxtLink>
           </div>
         </div>
       </section>
@@ -377,26 +394,59 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from 'vue'
-import {
-  BrainCircuit,
-  Building2,
-  ChevronLeft,
-  ChevronRight,
-  Layers,
-  Menu,
-  Search,
-  Shield,
-  Sparkles,
-  Terminal,
-  X,
-} from 'lucide-vue-next'
+import { ChevronRight, Menu, Search, Sparkles, X } from 'lucide-vue-next'
 import { computed, defineAsyncComponent, onUnmounted, ref, watch } from 'vue'
+
+import type { BlogTopicId } from '~/utils/blogTopicFilter'
+import { postMatchesTopic } from '~/utils/blogTopicFilter'
 
 const ContactModal = defineAsyncComponent(() => import('~/components/ContactModal.vue'))
 
 const copy = useHomeCopy()
 const siteTitle = copy.site.title
+
+const { data: posts } = await useAllBlogPostCards()
+
+const postCount = computed(() => posts.value?.length ?? 0)
+
+const heroTopicFilters: { id: BlogTopicId; label: string }[] = [
+  { id: 'python', label: 'Python' },
+  { id: 'apis', label: 'APIs' },
+  { id: 'devops', label: 'DevOps' },
+  { id: 'dados', label: 'Dados' },
+]
+
+const selectedTopicId = ref<BlogTopicId | null>(null)
+const searchQuery = ref('')
+
+const filteredPosts = computed(() => {
+  const list = posts.value ?? []
+  const id = selectedTopicId.value
+  if (!id) return list
+  return list.filter((p) => postMatchesTopic(p, id))
+})
+
+const displayedPosts = computed(() => {
+  let list = filteredPosts.value
+  const q = searchQuery.value.trim().toLowerCase()
+  if (!q) return list
+  return list.filter((p) => (p.searchBlob ?? '').includes(q))
+})
+
+const visibleCount = computed(() => displayedPosts.value.length)
+
+function formatArticleDate(iso: string) {
+  if (!iso) return ''
+  try {
+    return new Intl.DateTimeFormat('pt-PT', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }).format(new Date(iso))
+  } catch {
+    return iso
+  }
+}
 
 const linkedInHref = computed(
   () => copy.socialLinks.find((l) => l.icon === 'linkedin')?.href ?? '#',
@@ -411,7 +461,7 @@ function openContact() {
 }
 
 useHead({
-  title: () => `Blog — ${siteTitle}`,
+  title: () => `Blog | ${siteTitle}`,
   meta: [
     {
       name: 'description',
@@ -421,7 +471,6 @@ useHead({
 })
 
 const year = new Date().getFullYear()
-const searchQuery = ref('')
 const newsletterEmail = ref('')
 
 watch([mobileNavOpen, contactModalOpen], ([nav, contact]) => {
@@ -438,95 +487,30 @@ const hero = {
   titleLine1: 'Inteligência',
   titleGradient: 'técnica',
   lead: 'No cruzamento entre arquitetura de alta performance, IA generativa e ecossistemas full-stack fluidos. Perspetivas de engenharia para o arquiteto moderno.',
-  codeSnippet: `async function optimizeLogic(node) {
-  const kernel = await AI.load('architecture');
-  return kernel.process(node.topology).then(res => {
-    return { ...res, kinetic: true };
-  });
-}`,
+  codeCaption: 'Exemplo — modelo Django com JSONField e domínio de topologia',
+  codeSnippet: `from django.db import models
+
+# Nó de processamento: topologia e estado cinético.
+class LogicNode(models.Model):
+    name = models.CharField(max_length=128)
+    topology = models.JSONField(default=dict)
+    kinetic = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self) -> str:
+        return self.name`,
 }
 
 const readInsightLabel = 'Ler artigo'
 
 const sidebar = {
-  categoriesTitle: 'Categorias',
   newsletterTitle: 'Newsletter semanal',
   newsletterBlurb: 'Análises profundas de arquitetura técnica todas as semanas.',
   newsletterPlaceholder: 'email@dominio.com',
   newsletterCta: 'Subscrever',
 }
-
-const categories: { id: string; icon: Component; label: string; active: boolean }[] = [
-  { id: 'architecture', icon: Building2, label: 'Arquitetura', active: false },
-  { id: 'fullstack', icon: Layers, label: 'Full-stack', active: true },
-  { id: 'aiml', icon: BrainCircuit, label: 'IA e ML', active: false },
-  { id: 'devops', icon: Terminal, label: 'DevOps', active: false },
-  { id: 'security', icon: Shield, label: 'Segurança', active: false },
-]
-
-type TagVariant = 'primary' | 'tertiary'
-
-interface BlogPostCard {
-  image: string
-  imageAlt: string
-  tag: string
-  tagVariant: TagVariant
-  date: string
-  readTime: string
-  title: string
-  excerpt: string
-}
-
-const posts: BlogPostCard[] = [
-  {
-    tag: 'Arquitetura',
-    tagVariant: 'primary',
-    date: '24 de maio de 2024',
-    readTime: '12 min de leitura',
-    title: 'Sistemas distribuídos além do limiar de 10 mil nós',
-    excerpt:
-      'Os limites termodinâmicos da orquestração em cluster e por que os algoritmos de consenso clássicos falham sob pressão assíncrona extrema.',
-    imageAlt: 'Bastidores de datacenter com iluminação néon',
-    image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuA3dobgQpaIdm6f6NrgYAkiWW2_7iDDzfADu9XcG5GyXDHg18E1aXUf8M5IApWZaw-BBk8_l5PPb-V9irPLfAMqciVOxmsI91f8AZZrZ6lCQQQjxwETCu00x5CL62Zo9HfSKuaRQ2bIdVba_FUoNx01FRNhGQC9a3tvNJrcc4kEbI9j807GzR1qyQhMHgEqy0ul8xmJEmfn-U6Q4Hjfc6M-93nyvULw8E-7RQFzEJedgHu__VBV3nvaeG-nGVT4VNmUjq4RpSAvMZ4',
-  },
-  {
-    tag: 'IA e ML',
-    tagVariant: 'tertiary',
-    date: '18 de maio de 2024',
-    readTime: '8 min de leitura',
-    title: 'LLMs em produção: de RAG a fluxos de agentes',
-    excerpt:
-      'Porque a geração aumentada por recuperação é só a base. Implementação de ciclos autónomos de agentes para raciocínio multi-passo.',
-    imageAlt: 'Visualização abstrata de rede neuronal',
-    image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuAzq4l9iTgx3uqOO2sLZs9fxaUZYxRjrzi1Fiyto3-RcetMvmkmu5dWVwRuCcumh9tkZzm-96bzBW7PzRcwvgrtpl44JOQ6k_PhegRDQgirjug2KbKtV8F-hVXue4lLUADfUVlyDridrAO8J5DZVCr5TdkJhR6un1lK1cAP6_hl5pI6QrhWoKanUFZZ_nD-iyQB2EVzUfiXZivdbiJQGEZ2OD8Y3ciUKvyu2yHTKtRcN07gwjVRv7ZmMKaK41qo96Fd9cQBJF7j0gg',
-  },
-  {
-    tag: 'Full-stack',
-    tagVariant: 'primary',
-    date: '12 de maio de 2024',
-    readTime: '15 min de leitura',
-    title: 'O fim do Virtual DOM: reactividade fina',
-    excerpt:
-      'A transição para reactividade baseada em sinais e o impacto na gestão de estado na web moderna.',
-    imageAlt: 'Circuito eletrónico em close-up',
-    image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBxs7U34ZiLWfXKvYM08WVByrsLKqCG4g6wCdLLf7t88KbUrsHXOAOCSgG2oouhlX3YIc6bdCMu0a0k181ntg9DlFuQmOtYmJW_BbHyw7KZ0fN5Eny9C7C2I492iuE8Yva4Y8mt6oKOf-H8BWHxViBpUIupL30FAw8dqeu9D_jvOjK0tpNN3zdKNEK-ORrf0gcJrzmlmWcaD7IfjZ7zTTO7jhH98pcD62qDpzVJVBJHl7pkwAYGVY7iHpPySzjpQ4fHuGCJfRrz2V8',
-  },
-  {
-    tag: 'DevOps',
-    tagVariant: 'primary',
-    date: '5 de maio de 2024',
-    readTime: '10 min de leitura',
-    title: 'Platform Engineering versus SRE tradicional',
-    excerpt:
-      'Plataformas internas para programadores (IDP) que reduzem a carga cognitiva sem sacrificar excelência operacional.',
-    imageAlt: 'Código no ecrã com realce de sintaxe',
-    image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDKq90Gdn0O7Q_RSbM1fq16zf0Fh_ToPfm3oV0n9bXaLFHXDia2af8penkqJkq6astIjM3cXvtQeJ-wMnngljLTPNhgq_5SefZxuFeoYhm9rZLRJlwNn2TouXc66JlF5871RbfgZFuEkscdsIqdvXr62q-cw8Hd62b4W6Oit-N3oRoPHVltcHHWd-gV8lENPmjMvt_2JqZKPkMviCjU4sCJCCUREHlvXx2b_tQtvUa3mJjuLlkCpIU4UNvxvfqIbFqj6O082anzvb4',
-  },
-]
 
 const footer = {
   brand: copy.footer.brand,

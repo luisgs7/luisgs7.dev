@@ -28,7 +28,7 @@
             {{ copy.nav.blog }}
           </NuxtLink>
           <NuxtLink
-            to="#"
+            to="/cursos"
             class="text-on-surface/70 hover:text-primary transition-colors font-semibold"
           >
             {{ copy.nav.courses }}
@@ -88,7 +88,7 @@
               {{ copy.nav.blog }}
             </NuxtLink>
             <NuxtLink
-              to="#"
+              to="/cursos"
               class="text-on-surface py-3.5 px-4 rounded-xl font-semibold bg-surface-container-high border border-outline-variant/15 active:bg-surface-container-highest hover:border-primary/30"
               @click="mobileNavOpen = false"
             >
@@ -184,18 +184,21 @@
             <div
               class="relative w-full aspect-[3/4] sm:aspect-[4/5] lg:aspect-[4/5] rounded-3xl sm:rounded-[2rem] overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.45)] lg:shadow-[0_0_80px_rgba(0,0,0,0.5)] border border-outline-variant/20 group"
             >
-              <NuxtImg
+              <NuxtPicture
                 :src="copy.hero.profileImage"
                 :alt="copy.hero.profileAlt"
                 width="720"
                 height="900"
                 sizes="(max-width: 1023px) 384px, 560px"
-                class="w-full h-full object-cover object-[center_22%] sm:object-[center_26%] transition-transform duration-700 lg:group-hover:scale-105"
                 preset="hero"
-                format="webp"
                 loading="eager"
-                fetchpriority="high"
                 decoding="async"
+                :preload="{ fetchPriority: 'high' }"
+                :img-attrs="{
+                  class:
+                    'w-full h-full object-cover object-center transition-transform duration-700 lg:group-hover:scale-105',
+                  fetchpriority: 'high',
+                }"
               />
               <div
                 class="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-50 sm:opacity-60 lg:from-background"
@@ -346,7 +349,7 @@
               </p>
             </div>
             <NuxtLink
-              to="#"
+              to="/blog"
               class="text-primary font-bold inline-flex items-center gap-2 group text-base sm:text-lg py-2 -ml-1 md:ml-0 min-h-11"
             >
               {{ copy.blogIntro.archiveLink }}
@@ -357,22 +360,30 @@
               />
             </NuxtLink>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
-            <article
-              v-for="post in copy.blogPosts"
-              :key="post.title"
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 sm:gap-10">
+            <NuxtLink
+              v-for="post in latestBlogPosts ?? []"
+              :key="post.path"
+              :to="post.path"
               :class="[
-                'bg-surface-container-high rounded-3xl sm:rounded-[2rem] overflow-hidden border border-outline-variant/10 group sm:hover:-translate-y-3 transition-all duration-500 sm:hover:shadow-2xl',
+                'block bg-surface-container-high rounded-3xl sm:rounded-[2rem] overflow-hidden border border-outline-variant/10 group sm:hover:-translate-y-3 transition-all duration-500 sm:hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/80 focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                 post.shadow === 'tertiary'
                   ? 'sm:hover:shadow-tertiary/5'
                   : 'sm:hover:shadow-primary/5',
               ]"
             >
               <div class="aspect-video bg-surface-container-highest relative overflow-hidden">
-                <img
-                  :alt="post.imageAlt"
-                  class="w-full h-full object-cover opacity-80 sm:group-hover:scale-110 transition-transform duration-700"
+                <NuxtPicture
                   :src="post.image"
+                  :alt="post.imageAlt"
+                  width="800"
+                  height="450"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                  loading="lazy"
+                  :img-attrs="{
+                    class:
+                      'w-full h-full object-cover opacity-80 sm:group-hover:scale-110 transition-transform duration-700',
+                  }"
                 />
                 <div
                   class="absolute inset-0 bg-gradient-to-t from-surface-container-high to-transparent"
@@ -393,15 +404,14 @@
                 <p class="text-on-surface-variant text-sm sm:text-base line-clamp-2 mb-6 sm:mb-8 leading-relaxed">
                   {{ post.excerpt }}
                 </p>
-                <NuxtLink
-                  to="#"
-                  class="inline-flex items-center min-h-11 text-sm font-bold gap-2 text-primary sm:hover:gap-3 transition-all py-1 -mx-1 px-1 rounded-lg"
+                <span
+                  class="inline-flex items-center min-h-11 text-sm font-bold gap-2 text-primary sm:group-hover:gap-3 transition-all py-1 -mx-1 px-1 rounded-lg"
                 >
                   {{ copy.blogIntro.readCaseStudy }}
                   <ChevronRight class="size-[1.125rem] shrink-0" aria-hidden="true" stroke-width="2.25" />
-                </NuxtLink>
+                </span>
               </div>
-            </article>
+            </NuxtLink>
           </div>
         </div>
       </section>
@@ -524,6 +534,8 @@ import { computed, defineAsyncComponent, onUnmounted, ref, watch } from 'vue'
 const ContactModal = defineAsyncComponent(() => import('~/components/ContactModal.vue'))
 
 const copy = useHomeCopy()
+
+const { data: latestBlogPosts } = await useLatestBlogPostsForHome()
 
 useHead({
   title: copy.site.title,

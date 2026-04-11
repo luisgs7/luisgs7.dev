@@ -101,29 +101,8 @@ tech:
 blogIntro:
   title: Notas de engenharia
   subtitle: Textos sobre APIs, Python, bases de dados e práticas de backend e DevOps que uso no dia a dia.
-  archiveLink: Ver arquivo completo
+  archiveLink: Ir para o Blog
   readCaseStudy: Ler artigo
-
-# tagVariant: primary | tertiary (define cores do badge e sombra no hover)
-blogPosts:
-  - tag: Django
-    tagVariant: primary
-    title: APIs com Django REST Framework em produção
-    excerpt: Padrões de manutenção, testes e evolução de endpoints que servem equipas e clientes em ambiente real.
-    imageAlt: Código e documentação de API
-    image: https://lh3.googleusercontent.com/aida-public/AB6AXuBKGDHBhEANTThCcbC2tmS_8easCll3MT_K00yEE7dSzkSrm0BvuvhkChuTpu2LBE3SJ8PZT7n0Hp4wEuIHVb-VfA0MhhlYtg131N9A49kR48XxmHnG1mD3gZhg6XHzs9LoZ5q455uEETf_Zts3XDUngLuQVXXU2qZjY9-OlFoJ-V2gFweYNJJpvNv21lVXzr4aHXXr39G4n1a4A2p6ODTMDfb6foBc19whwShuxZ2oE-qUTsiAfi9rNMm1CVyz_jNsCMbLtImHxMY
-  - tag: FastAPI
-    tagVariant: tertiary
-    title: FastAPI para serviços assíncronos
-    excerpt: Quando escolher FastAPI, como estruturar rotas e integrar com filas e bases de dados de forma sustentável.
-    imageAlt: Serviço API em execução
-    image: https://lh3.googleusercontent.com/aida-public/AB6AXuApFe3tJep2M46xBelxnhpK7RcYM9rER2oK1zRjBzJUck4jH0EuBEBD0Ap3qeAAoF09mI1xJO_EQmZwpd8zdPI8qLE32z0BMkdXulhHZ_QVUsmNKCDrOgakIKe9RzFTgp2ffQw7cNcY6bhBXDw_HCWUvj9fuEfZXynoNU_nIya7FWbPp9cneJNJjedIyiR_0sEZfsubffGxTaE6kwYkpPhI2NdL2GQ6xGbdyeDgOUMY5vJw-qqVekHo5M6Rq9bXFqZhTMhSfK3cMLs
-  - tag: DevOps
-    tagVariant: primary
-    title: Docker, cloud e observabilidade
-    excerpt: Containers, deploy, Prometheus e Grafana para acompanhar o que corre em produção sem surpresas.
-    imageAlt: Monitorização de infraestrutura
-    image: https://lh3.googleusercontent.com/aida-public/AB6AXuD-akQukJUWNBb_ZAvd2o2TMvdcU7GPWqBYP1PSGoOUSXrIg0rutY8FOoOUtcIn23c2WmfPkCD_C9pqJ_YyxCT5EKvVUIz40XwtgMShrNNnZ3NVrvpuw1_HHdfY4PZlbBx4AiEjKldCVMrYw8xHYQVHergWf1QHWULUEEaC71KJa7fKzgezCvqkYrgsxsKRn13beF4cuE5QlQvhowy1XIZaA4ItU-MZ19B2eOCfl473gMRDoHdI90HWhM27K3G8k9w3mWOIj2wSSI0
 
 cta:
   titleBefore: Quer falar sobre

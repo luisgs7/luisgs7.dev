@@ -41,20 +41,6 @@ export interface HomeTechYaml {
   simpleIcon?: boolean
 }
 
-export interface HomeBlogYaml {
-  tag: string
-  tagVariant: StatAccent
-  title: string
-  excerpt: string
-  image: string
-  imageAlt: string
-}
-
-export interface HomeBlogPost extends HomeBlogYaml {
-  tagClass: string
-  shadow: StatAccent
-}
-
 export interface HomeSocialYaml {
   label: string
   href: string
@@ -110,7 +96,6 @@ interface HomeFrontmatter {
   techIntro: { title: string; subtitle: string }
   tech: HomeTechYaml[]
   blogIntro: { title: string; subtitle: string; archiveLink: string; readCaseStudy: string }
-  blogPosts: HomeBlogYaml[]
   cta: {
     titleBefore: string
     titleGradient: string
@@ -134,7 +119,6 @@ export interface HomeCopy {
   techIntro: HomeFrontmatter['techIntro']
   techStack: HomeTechItem[]
   blogIntro: HomeFrontmatter['blogIntro']
-  blogPosts: HomeBlogPost[]
   cta: HomeFrontmatter['cta']
   footer: HomeFrontmatter['footer']
   socialLinks: HomeSocialLink[]
@@ -152,15 +136,6 @@ function buildTechStack(rows: HomeTechYaml[]): HomeTechItem[] {
       ...(classes.length ? { imgClass: classes.join(' ') } : {}),
     }
   })
-}
-
-function buildBlogPosts(posts: HomeBlogYaml[]): HomeBlogPost[] {
-  return posts.map((p) => ({
-    ...p,
-    tagClass:
-      p.tagVariant === 'tertiary' ? 'bg-tertiary/10 text-tertiary' : 'bg-primary/10 text-primary',
-    shadow: p.tagVariant,
-  }))
 }
 
 function buildSocial(links: HomeSocialYaml[]): HomeSocialLink[] {
@@ -185,7 +160,6 @@ export function useHomeCopy(): HomeCopy {
     techIntro: fm.techIntro,
     techStack: buildTechStack(fm.tech),
     blogIntro: fm.blogIntro,
-    blogPosts: buildBlogPosts(fm.blogPosts),
     cta: fm.cta,
     footer: fm.footer,
     socialLinks: buildSocial(fm.social),

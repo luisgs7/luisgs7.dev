@@ -3,8 +3,9 @@
 @tailwind utilities;
 
 @layer components {
+  /* Apenas stacks do sistema — nomes como "Cascadia Code" fazem o @nuxt/fonts tentar descarregar a família. */
   .code-font {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: ui-monospace, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   }
 
   .glass-header {
