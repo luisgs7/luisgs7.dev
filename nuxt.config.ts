@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: process.env.NODE_ENV === 'development' },
   modules: [
+    './modules/home-frontmatter',
     '@nuxt/content',
     '@nuxtjs/tailwindcss',
     '@nuxt/fonts',
@@ -34,16 +35,10 @@ export default defineNuxtConfig({
         weights: [400, 500, 600],
         subsets: ['latin'],
       },
-      {
-        name: 'Space Grotesk',
-        provider: 'google',
-        weights: [400, 500, 700],
-        subsets: ['latin'],
-      },
     ],
   },
   image: {
-    quality: 76,
+    quality: 72,
     format: ['avif', 'webp', 'jpeg'],
     domains: ['lh3.googleusercontent.com', 'images.unsplash.com'],
     screens: {
@@ -57,7 +52,7 @@ export default defineNuxtConfig({
       hero: {
         modifiers: {
           fit: 'cover',
-          quality: 72,
+          quality: 66,
         },
       },
     },
@@ -83,6 +78,12 @@ export default defineNuxtConfig({
         class: 'dark',
         lang: 'pt',
       },
+    },
+  },
+  vite: {
+    build: {
+      // Evita o polyfill de modulepreload (pedido em cadeia, ~JS extra no Lighthouse).
+      modulePreload: { polyfill: false },
     },
   },
 })

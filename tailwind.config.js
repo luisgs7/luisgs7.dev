@@ -72,7 +72,8 @@ export default {
       fontFamily: {
         headline: ['Manrope', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         body: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        label: ['Space Grotesk', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        // Inter em vez de Space Grotesk: uma família a menos a descarregar (@nuxt/fonts).
+        label: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         shimmer: {

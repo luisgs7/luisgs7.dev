@@ -1,22 +1,4 @@
-import { parse as parseYaml } from 'yaml'
-import homeMd from '../../content/home.md?raw'
-
-/** Frontmatter YAML sem gray-matter (evita `Buffer` no bundle do cliente). */
-function parseYamlFrontmatter(raw: string): { data: unknown } {
-  const text = raw.replace(/^\uFEFF/, '')
-  if (!text.startsWith('---')) return { data: {} }
-  const afterOpen = text.indexOf('\n', 3)
-  if (afterOpen === -1) return { data: {} }
-  const fromContent = text.slice(afterOpen + 1)
-  const closeIdx = fromContent.search(/^\s*---\s*$/m)
-  if (closeIdx === -1) return { data: {} }
-  const yamlBlock = fromContent.slice(0, closeIdx).trimEnd()
-  try {
-    return { data: parseYaml(yamlBlock) ?? {} }
-  } catch {
-    return { data: {} }
-  }
-}
+import homeFrontmatter from 'virtual:home-frontmatter'
 
 const DEVICON_CDN = 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.17.0/icons'
 const SOCIAL_ICONS_CDN = 'https://cdn.jsdelivr.net/npm/simple-icons@13.16.0/icons'
@@ -57,7 +39,7 @@ export interface HomeTechItem {
   imgClass?: string
 }
 
-interface HomeFrontmatter {
+export interface HomeFrontmatter {
   site: { title: string }
   a11y: {
     openMenu: string
@@ -145,8 +127,7 @@ function buildSocial(links: HomeSocialYaml[]): HomeSocialLink[] {
   }))
 }
 
-const { data } = parseYamlFrontmatter(homeMd)
-const fm = data as HomeFrontmatter
+const fm = homeFrontmatter as HomeFrontmatter
 
 export function useHomeCopy(): HomeCopy {
   return {
