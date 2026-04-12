@@ -17,6 +17,14 @@ export default defineNuxtConfig({
     url: 'https://luisgs7.dev',
     name: 'Luís Gustavo Silva',
   },
+  /** Menos overhead no servidor Nitro quando as OG são só em build (SSG). */
+  ogImage: {
+    zeroRuntime: true,
+  },
+  /** Sitemap só em build; menos código no bundle (estático). */
+  sitemap: {
+    zeroRuntime: true,
+  },
   tailwindcss: {
     cssPath: '~/assets/css/main.css',
   },
@@ -40,7 +48,7 @@ export default defineNuxtConfig({
   image: {
     quality: 68,
     format: ['avif', 'webp', 'jpeg'],
-    domains: ['lh3.googleusercontent.com', 'images.unsplash.com'],
+    domains: ['lh3.googleusercontent.com'],
     screens: {
       xs: 360,
       sm: 640,
@@ -68,6 +76,10 @@ export default defineNuxtConfig({
   },
   nitro: {
     compressPublicAssets: true,
+    prerender: {
+      crawlLinks: true,
+      routes: ['/'],
+    },
     routeRules: {
       '/images/**': {
         headers: { 'cache-control': 'public, max-age=31536000, immutable' },
@@ -90,6 +102,16 @@ export default defineNuxtConfig({
           'cache-control': 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400',
         },
       },
+      '/': {
+        headers: {
+          'cache-control': 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400',
+        },
+      },
+      '/cursos': {
+        headers: {
+          'cache-control': 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400',
+        },
+      },
     },
   },
   app: {
@@ -99,8 +121,12 @@ export default defineNuxtConfig({
         lang: 'pt',
       },
       link: [
+        {
+          rel: 'preconnect',
+          href: 'https://fonts.gstatic.com',
+          crossorigin: 'anonymous',
+        },
         { rel: 'dns-prefetch', href: 'https://cdn.jsdelivr.net' },
-        { rel: 'dns-prefetch', href: 'https://fonts.gstatic.com' },
         { rel: 'dns-prefetch', href: 'https://app.kit.com' },
       ],
     },
