@@ -16,6 +16,8 @@ export default defineContentConfig({
         imageAlt: z.string(),
         readTime: z.string().optional(),
         tags: z.array(z.string()).optional(),
+        /** Rótulos de filtro (opcional). Se omitido ou vazio, inferem-se de `tag` e `tags`. */
+        topics: z.array(z.string()).optional(),
       }),
       indexes: [{ columns: ['date'] }],
     }),

@@ -134,12 +134,11 @@
           </p>
           <BlogNewsletterSignup
             v-model="email"
+            v-model:name="signupName"
             :kicker="signup.kicker"
             :blurb="signup.blurb"
             :placeholder="signup.placeholder"
             :button-label="signup.cta"
-            :mailto-subject="signup.mailtoSubject"
-            :mailto-body-intro="signup.mailtoBodyIntro"
           />
         </div>
       </div>
@@ -192,7 +191,6 @@
     <ContactModal
       v-model="contactModalOpen"
       :linkedin-href="linkedInHref"
-      :recipient-email="copy.contact?.formEmail ?? ''"
       :close-label="copy.a11y.closeContactModal"
       :title="copy.nav.contact"
     />
@@ -209,6 +207,7 @@ const copy = useHomeCopy()
 const siteTitle = copy.site.title
 
 const email = ref('')
+const signupName = ref('')
 const contactModalOpen = ref(false)
 const mobileNavOpen = ref(false)
 
@@ -230,12 +229,9 @@ const page = {
 
 const signup = {
   kicker: 'Novidades',
-  blurb: 'Cadastre o seu e-mail para receber novidades do site (artigos, atualizações e avisos sobre cursos).',
+  blurb: 'Cadastre o seu nome e e-mail para receber novidades do site (artigos, atualizações e avisos sobre cursos).',
   placeholder: 'email@dominio.com',
   cta: 'Subscrever',
-  mailtoSubject: 'Subscrição — novidades do site (cursos) — luisgs7.dev',
-  mailtoBodyIntro:
-    'Quero receber novidades do site e ser informado quando forem publicados cursos recomendados.',
 }
 
 const footer = {

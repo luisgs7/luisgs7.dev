@@ -275,7 +275,7 @@
                 </a>
               </nav>
             </div>
-            <BlogNewsletterSignup v-model="sidebarCtaEmail" />
+            <BlogNewsletterSignup v-model="sidebarCtaEmail" v-model:name="sidebarCtaName" />
           </div>
         </aside>
 
@@ -293,7 +293,7 @@
         <h2 class="font-label text-xs uppercase tracking-[0.2em] text-tertiary mb-4">
           Próximos passos
         </h2>
-        <BlogNewsletterSignup v-model="sidebarCtaEmail" />
+        <BlogNewsletterSignup v-model="sidebarCtaEmail" v-model:name="sidebarCtaName" />
       </div>
 
       <!-- Bio do autor -->
@@ -485,7 +485,6 @@
     <ContactModal
       v-model="contactModalOpen"
       :linkedin-href="linkedInHref"
-      :recipient-email="copy.contact?.formEmail ?? ''"
       :close-label="copy.a11y.closeContactModal"
       :title="copy.nav.contact"
     />
@@ -543,6 +542,7 @@ const contactModalOpen = ref(false)
 const mobileNavOpen = ref(false)
 const articleBodyRef = ref<HTMLElement | null>(null)
 const sidebarCtaEmail = ref('')
+const sidebarCtaName = ref('')
 
 /** Frontmatter: no Content v3 os campos podem vir na raiz do doc ou só em `meta`. */
 const fm = computed(() => {

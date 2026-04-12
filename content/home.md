@@ -100,7 +100,7 @@ tech:
 
 blogIntro:
   title: Notas de engenharia
-  subtitle: Textos sobre APIs, Python, bases de dados e práticas de backend e DevOps que uso no dia a dia.
+  subtitle: Artigos sobre APIs, Python, bases de dados e práticas de backend e DevOps que uso no dia a dia.
   archiveLink: Ir para o Blog
   readCaseStudy: Ler artigo
 

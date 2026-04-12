@@ -432,7 +432,6 @@
     <ContactModal
       v-model="contactModalOpen"
       :linkedin-href="linkedInHref"
-      :recipient-email="copy.contact?.formEmail ?? ''"
       :close-label="copy.a11y.closeContactModal"
       :title="copy.nav.contact"
     />

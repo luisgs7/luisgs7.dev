@@ -1,4 +1,5 @@
 import { plainTextFromMinimarkBody } from '~/utils/plainTextFromContentBody'
+import { resolvePostFilterTopics } from '~/utils/blogTopicFilter'
 
 import type { StatAccent } from './useHomeCopy'
 
@@ -14,8 +15,10 @@ export interface BlogPostCard {
   date: string
   tagClass: string
   shadow: StatAccent
-  /** Tags extra do frontmatter (filtros por tema) */
+  /** Tags extra do frontmatter */
   tags: string[]
+  /** Rótulos de filtro do /blog: campo `topics` no MD ou inferidos de `tag` / `tags` */
+  topics: string[]
   /** Título, resumo, tags e texto do corpo em minúsculas — para pesquisa */
   searchBlob: string
 }
@@ -30,8 +33,9 @@ export function mapBlogDocumentToCard(doc: {
   imageAlt?: string
   path?: string
   tags?: string[]
+  topics?: string[]
   body?: unknown
-  meta?: { tags?: string[]; body?: unknown; [key: string]: unknown }
+  meta?: { tags?: string[]; topics?: string[]; body?: unknown; [key: string]: unknown }
 }): BlogPostCard | null {
   if (!doc.path || !doc.title) return null
   const tagVariant = (doc.tagVariant === 'tertiary' ? 'tertiary' : 'primary') as StatAccent
@@ -39,6 +43,12 @@ export function mapBlogDocumentToCard(doc: {
   const tags = Array.isArray(rawTags)
     ? rawTags.filter((t): t is string => typeof t === 'string')
     : []
+  const rawTopics = doc.topics ?? doc.meta?.topics
+  const explicitTopics = Array.isArray(rawTopics)
+    ? rawTopics.filter((t): t is string => typeof t === 'string').map((t) => t.trim()).filter(Boolean)
+    : []
+  const tagStr = doc.tag ?? ''
+  const topics = resolvePostFilterTopics(explicitTopics, tagStr, tags)
   const body = doc.body ?? doc.meta?.body
   let plainBody = ''
   try {
@@ -51,6 +61,7 @@ export function mapBlogDocumentToCard(doc: {
     doc.description ?? '',
     doc.tag ?? '',
     ...tags,
+    ...topics,
     plainBody,
   ]
     .join('\n')
@@ -68,6 +79,7 @@ export function mapBlogDocumentToCard(doc: {
       tagVariant === 'tertiary' ? 'bg-tertiary/10 text-tertiary' : 'bg-primary/10 text-primary',
     shadow: tagVariant,
     tags,
+    topics,
     searchBlob,
   }
 }

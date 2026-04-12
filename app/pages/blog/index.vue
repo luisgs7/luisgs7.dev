@@ -167,7 +167,7 @@
                 {{ hero.lead }}
               </p>
               <div
-                v-if="heroTopicFilters.length || postCount > 0"
+                v-if="availableFilterTopics.length || postCount > 0"
                 class="flex flex-wrap gap-2 sm:gap-3 mt-8 sm:mt-10"
                 role="group"
                 :aria-label="'Filtrar artigos por tema'"
@@ -177,31 +177,31 @@
                   type="button"
                   class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border text-[11px] sm:text-xs font-label uppercase tracking-widest transition-colors min-h-10"
                   :class="
-                    selectedTopicId === null
+                    selectedTopic === null
                       ? 'bg-primary/15 border-primary/40 text-primary ring-1 ring-primary/25'
                       : 'bg-surface-container-high/80 border-outline-variant/15 text-on-surface-variant hover:border-outline-variant/30'
                   "
-                  :aria-pressed="selectedTopicId === null"
-                  @click="selectedTopicId = null"
+                  :aria-pressed="selectedTopic === null"
+                  @click="selectedTopic = null"
                 >
                   <span class="size-1.5 rounded-full bg-primary shrink-0" aria-hidden="true" />
                   {{ postCount }} {{ postCount === 1 ? 'artigo' : 'artigos' }}
                 </button>
                 <button
-                  v-for="topic in heroTopicFilters"
-                  :key="topic.id"
+                  v-for="topicLabel in availableFilterTopics"
+                  :key="topicLabel"
                   type="button"
                   class="px-3 py-1.5 rounded-lg border text-[11px] sm:text-xs font-medium transition-colors min-h-10"
                   :class="
-                    selectedTopicId === topic.id
+                    selectedTopic === topicLabel
                       ? 'bg-primary/15 border-primary/40 text-primary ring-1 ring-primary/25'
                       : 'bg-surface-container-highest/50 border-outline-variant/10 text-on-surface-variant/90 hover:border-outline-variant/25'
                   "
-                  :aria-pressed="selectedTopicId === topic.id"
-                  :aria-label="`Filtrar por ${topic.label}`"
-                  @click="selectedTopicId = topic.id"
+                  :aria-pressed="selectedTopic === topicLabel"
+                  :aria-label="`Filtrar por ${topicLabel}`"
+                  @click="selectedTopic = topicLabel"
                 >
-                  {{ topic.label }}
+                  {{ topicLabel }}
                 </button>
               </div>
             </div>
@@ -238,42 +238,30 @@
       <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24 flex flex-col md:flex-row gap-10 md:gap-12">
         <aside class="w-full md:w-64 shrink-0 order-2 md:order-1">
           <div class="md:sticky md:top-28 space-y-8">
-            <div
-              class="bg-gradient-to-br from-surface-container-high to-surface-container-low p-6 rounded-xl border border-outline-variant/5"
-            >
-              <Sparkles class="size-6 text-tertiary mb-4" aria-hidden="true" stroke-width="2" />
-              <h4 class="font-headline font-bold text-on-surface mb-2">
-                {{ sidebar.newsletterTitle }}
-              </h4>
-              <p class="text-xs text-on-surface-variant mb-4">
-                {{ sidebar.newsletterBlurb }}
-              </p>
-              <input
-                v-model="newsletterEmail"
-                class="w-full bg-surface-container-lowest border-none rounded py-2 px-3 text-xs text-on-surface placeholder:text-on-surface-variant/50 mb-3"
-                :placeholder="sidebar.newsletterPlaceholder"
-                type="email"
-                autocomplete="email"
-              />
-              <button
-                type="button"
-                class="w-full py-2 bg-primary text-on-primary rounded font-label text-[10px] uppercase tracking-widest font-bold hover:brightness-110 transition-all"
-              >
-                {{ sidebar.newsletterCta }}
-              </button>
-            </div>
+            <BlogNewsletterSignup
+              v-model="newsletterEmail"
+              v-model:name="newsletterName"
+              :kicker="sidebar.newsletterTitle"
+              :blurb="sidebar.newsletterBlurb"
+              :placeholder="sidebar.newsletterPlaceholder"
+              :button-label="sidebar.newsletterCta"
+            />
           </div>
         </aside>
 
         <div class="flex-grow min-w-0 order-1 md:order-2">
           <p
-            v-if="selectedTopicId !== null && postCount > 0"
+            v-if="
+              matchedArticleCount > 0 &&
+              (selectedTopic !== null ||
+                searchQuery.trim() ||
+                matchedArticleCount > ARTICLES_PAGE_SIZE)
+            "
             class="text-xs font-label text-on-surface-variant mb-4 uppercase tracking-widest"
             aria-live="polite"
           >
-            A mostrar {{ visibleCount }}
-            {{ visibleCount === 1 ? 'artigo' : 'artigos' }}
-            <span v-if="visibleCount < postCount"> ({{ postCount }} no total) </span>
+            A mostrar {{ shownArticleCount }} de {{ matchedArticleCount }}
+            {{ matchedArticleCount === 1 ? 'artigo' : 'artigos' }}
           </p>
           <p
             v-if="!displayedPosts.length && postCount > 0"
@@ -281,9 +269,9 @@
           >
             Nenhum artigo corresponde a esta pesquisa ou filtro.
           </p>
-          <div v-if="displayedPosts.length" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div v-if="matchedArticleCount" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <NuxtLink
-              v-for="post in displayedPosts"
+              v-for="post in pagedDisplayedPosts"
               :key="post.path"
               :to="post.path"
               class="group block bg-surface-container-high rounded-xl overflow-hidden hover:bg-surface-bright transition-all duration-300 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/80 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
@@ -337,6 +325,15 @@
               </div>
             </NuxtLink>
           </div>
+          <div v-if="hasMoreArticles" class="flex justify-center mt-10 sm:mt-12">
+            <button
+              type="button"
+              class="min-h-12 px-8 py-3 rounded-xl border border-primary/35 bg-surface-container-high text-primary font-headline text-sm font-bold tracking-tight hover:bg-primary/10 hover:border-primary/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 transition-colors"
+              @click="loadMoreArticles"
+            >
+              Carregar mais
+            </button>
+          </div>
         </div>
       </section>
     </main>
@@ -386,7 +383,6 @@
     <ContactModal
       v-model="contactModalOpen"
       :linkedin-href="linkedInHref"
-      :recipient-email="copy.contact?.formEmail ?? ''"
       :close-label="copy.a11y.closeContactModal"
       :title="copy.nav.contact"
     />
@@ -394,11 +390,10 @@
 </template>
 
 <script setup lang="ts">
-import { ChevronRight, Menu, Search, Sparkles, X } from 'lucide-vue-next'
+import { ChevronRight, Menu, Search, X } from 'lucide-vue-next'
 import { computed, defineAsyncComponent, onUnmounted, ref, watch } from 'vue'
 
-import type { BlogTopicId } from '~/utils/blogTopicFilter'
-import { postMatchesTopic } from '~/utils/blogTopicFilter'
+import { postMatchesTopicLabel, sortAggregatedTopicLabels } from '~/utils/blogTopicFilter'
 
 const ContactModal = defineAsyncComponent(() => import('~/components/ContactModal.vue'))
 
@@ -409,21 +404,22 @@ const { data: posts } = await useAllBlogPostCards()
 
 const postCount = computed(() => posts.value?.length ?? 0)
 
-const heroTopicFilters: { id: BlogTopicId; label: string }[] = [
-  { id: 'python', label: 'Python' },
-  { id: 'apis', label: 'APIs' },
-  { id: 'devops', label: 'DevOps' },
-  { id: 'dados', label: 'Dados' },
-]
+const availableFilterTopics = computed(() => {
+  const labels: string[] = []
+  for (const p of posts.value ?? []) {
+    for (const t of p.topics ?? []) labels.push(t)
+  }
+  return sortAggregatedTopicLabels(labels)
+})
 
-const selectedTopicId = ref<BlogTopicId | null>(null)
+const selectedTopic = ref<string | null>(null)
 const searchQuery = ref('')
 
 const filteredPosts = computed(() => {
   const list = posts.value ?? []
-  const id = selectedTopicId.value
-  if (!id) return list
-  return list.filter((p) => postMatchesTopic(p, id))
+  const topic = selectedTopic.value
+  if (!topic) return list
+  return list.filter((p) => postMatchesTopicLabel(p, topic))
 })
 
 const displayedPosts = computed(() => {
@@ -433,7 +429,30 @@ const displayedPosts = computed(() => {
   return list.filter((p) => (p.searchBlob ?? '').includes(q))
 })
 
-const visibleCount = computed(() => displayedPosts.value.length)
+/** Quantos artigos mostrar de cada vez na listagem principal */
+const ARTICLES_PAGE_SIZE = 4
+const visibleArticleLimit = ref(ARTICLES_PAGE_SIZE)
+
+const pagedDisplayedPosts = computed(() =>
+  displayedPosts.value.slice(0, visibleArticleLimit.value),
+)
+
+const matchedArticleCount = computed(() => displayedPosts.value.length)
+const shownArticleCount = computed(() => pagedDisplayedPosts.value.length)
+const hasMoreArticles = computed(
+  () => displayedPosts.value.length > visibleArticleLimit.value,
+)
+
+function loadMoreArticles() {
+  visibleArticleLimit.value = Math.min(
+    visibleArticleLimit.value + ARTICLES_PAGE_SIZE,
+    displayedPosts.value.length,
+  )
+}
+
+watch([selectedTopic, searchQuery], () => {
+  visibleArticleLimit.value = ARTICLES_PAGE_SIZE
+})
 
 function formatArticleDate(iso: string) {
   if (!iso) return ''
@@ -472,6 +491,7 @@ useHead({
 
 const year = new Date().getFullYear()
 const newsletterEmail = ref('')
+const newsletterName = ref('')
 
 watch([mobileNavOpen, contactModalOpen], ([nav, contact]) => {
   if (!import.meta.client) return
@@ -487,7 +507,7 @@ const hero = {
   titleLine1: 'Inteligência',
   titleGradient: 'técnica',
   lead: 'No cruzamento entre arquitetura de alta performance, IA generativa e ecossistemas full-stack fluidos. Perspetivas de engenharia para o arquiteto moderno.',
-  codeCaption: 'Exemplo — modelo Django com JSONField e domínio de topologia',
+  codeCaption: 'Model Django com JSONField e domínio de topologia',
   codeSnippet: `from django.db import models
 
 # Nó de processamento: topologia e estado cinético.
@@ -507,7 +527,8 @@ const readInsightLabel = 'Ler artigo'
 
 const sidebar = {
   newsletterTitle: 'Newsletter semanal',
-  newsletterBlurb: 'Análises profundas de arquitetura técnica todas as semanas.',
+  newsletterBlurb:
+    'Análises profundas de arquitetura técnica todas as semanas. Indique o nome e o e-mail para subscrever.',
   newsletterPlaceholder: 'email@dominio.com',
   newsletterCta: 'Subscrever',
 }

@@ -81,6 +81,15 @@ export default defineNuxtConfig({
       link: [
         { rel: 'dns-prefetch', href: 'https://cdn.jsdelivr.net' },
         { rel: 'dns-prefetch', href: 'https://fonts.gstatic.com' },
+        { rel: 'dns-prefetch', href: 'https://f.convertkit.com' },
+        { rel: 'dns-prefetch', href: 'https://app.kit.com' },
+      ],
+      script: [
+        {
+          src: 'https://f.convertkit.com/ckjs/ck.5.js',
+          async: true,
+          crossorigin: 'anonymous',
+        },
       ],
     },
   },
