@@ -28,7 +28,7 @@
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 sm:gap-10">
         <NuxtLink
-          v-for="post in latestBlogPosts ?? []"
+          v-for="(post, i) in latestBlogPosts ?? []"
           :key="post.path"
           :to="post.path"
           :class="[
@@ -42,13 +42,16 @@
             <NuxtPicture
               :src="post.image"
               :alt="post.imageAlt"
-              width="800"
-              height="450"
+              width="720"
+              height="405"
+              preset="blogCard"
               sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
-              loading="lazy"
+              :loading="i === 0 ? 'eager' : 'lazy'"
+              :preload="i === 0 ? { fetchPriority: 'high' } : undefined"
               :img-attrs="{
                 class:
                   'w-full h-full object-cover opacity-80 sm:group-hover:scale-110 transition-transform duration-700',
+                ...(i === 0 ? { fetchpriority: 'high', decoding: 'async' } : { decoding: 'async' }),
               }"
             />
             <div

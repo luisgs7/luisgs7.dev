@@ -132,7 +132,7 @@
           <p class="text-on-surface-variant text-base sm:text-lg leading-relaxed mb-10">
             {{ page.lead }}
           </p>
-          <BlogNewsletterSignup
+          <LazyBlogNewsletterSignup
             v-model="email"
             v-model:name="signupName"
             :kicker="signup.kicker"

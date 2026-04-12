@@ -238,7 +238,7 @@
       <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24 flex flex-col md:flex-row gap-10 md:gap-12">
         <aside class="w-full md:w-64 shrink-0 order-2 md:order-1">
           <div class="md:sticky md:top-28 space-y-8">
-            <BlogNewsletterSignup
+            <LazyBlogNewsletterSignup
               v-model="newsletterEmail"
               v-model:name="newsletterName"
               :kicker="sidebar.newsletterTitle"
@@ -271,7 +271,7 @@
           </p>
           <div v-if="matchedArticleCount" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <NuxtLink
-              v-for="post in pagedDisplayedPosts"
+              v-for="(post, cardIdx) in pagedDisplayedPosts"
               :key="post.path"
               :to="post.path"
               class="group block bg-surface-container-high rounded-xl overflow-hidden hover:bg-surface-bright transition-all duration-300 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/80 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
@@ -280,13 +280,16 @@
                 <NuxtPicture
                   :src="post.image"
                   :alt="post.imageAlt"
-                  width="800"
-                  height="450"
+                  width="720"
+                  height="405"
+                  preset="blogCard"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 40vw"
-                  loading="lazy"
+                  :loading="cardIdx === 0 ? 'eager' : 'lazy'"
+                  :preload="cardIdx === 0 ? { fetchPriority: 'high' } : undefined"
                   :img-attrs="{
                     class:
                       'w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity',
+                    ...(cardIdx === 0 ? { fetchpriority: 'high', decoding: 'async' } : { decoding: 'async' }),
                   }"
                 />
                 <div class="absolute top-4 left-4">

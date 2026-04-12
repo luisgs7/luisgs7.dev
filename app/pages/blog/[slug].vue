@@ -228,6 +228,8 @@
             v-if="isRemoteCover"
             :src="coverSrc"
             :alt="coverAlt"
+            width="960"
+            height="540"
             class="w-full h-full object-cover opacity-80"
             loading="eager"
             fetchpriority="high"
@@ -238,8 +240,9 @@
             v-else
             :src="coverSrc"
             :alt="coverAlt"
-            width="800"
-            height="450"
+            width="720"
+            height="405"
+            preset="blogCard"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, min(1152px, 100vw)"
             loading="eager"
             :preload="{ fetchPriority: 'high' }"
@@ -275,7 +278,7 @@
                 </a>
               </nav>
             </div>
-            <BlogNewsletterSignup v-model="sidebarCtaEmail" v-model:name="sidebarCtaName" />
+            <LazyBlogNewsletterSignup v-model="sidebarCtaEmail" v-model:name="sidebarCtaName" />
           </div>
         </aside>
 
@@ -293,7 +296,7 @@
         <h2 class="font-label text-xs uppercase tracking-[0.2em] text-tertiary mb-4">
           Próximos passos
         </h2>
-        <BlogNewsletterSignup v-model="sidebarCtaEmail" v-model:name="sidebarCtaName" />
+        <LazyBlogNewsletterSignup v-model="sidebarCtaEmail" v-model:name="sidebarCtaName" />
       </div>
 
       <!-- Bio do autor -->

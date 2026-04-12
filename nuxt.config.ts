@@ -55,6 +55,15 @@ export default defineNuxtConfig({
           quality: 60,
         },
       },
+      /** Listagens de artigos: largura alinhada a ~2 colunas / mobile, menos bytes que 800px. */
+      blogCard: {
+        modifiers: {
+          fit: 'cover',
+          width: 720,
+          height: 405,
+          quality: 62,
+        },
+      },
     },
   },
   nitro: {
@@ -70,6 +79,17 @@ export default defineNuxtConfig({
       '/_ipx/**': {
         headers: { 'cache-control': 'public, max-age=31536000, immutable' },
       },
+      // HTML do blog: revalidação suave (PageSpeed — ciclos de cache no documento).
+      '/blog': {
+        headers: {
+          'cache-control': 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400',
+        },
+      },
+      '/blog/**': {
+        headers: {
+          'cache-control': 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400',
+        },
+      },
     },
   },
   app: {
@@ -81,15 +101,7 @@ export default defineNuxtConfig({
       link: [
         { rel: 'dns-prefetch', href: 'https://cdn.jsdelivr.net' },
         { rel: 'dns-prefetch', href: 'https://fonts.gstatic.com' },
-        { rel: 'dns-prefetch', href: 'https://f.convertkit.com' },
         { rel: 'dns-prefetch', href: 'https://app.kit.com' },
-      ],
-      script: [
-        {
-          src: 'https://f.convertkit.com/ckjs/ck.5.js',
-          async: true,
-          crossorigin: 'anonymous',
-        },
       ],
     },
   },
