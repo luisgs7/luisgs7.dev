@@ -2,6 +2,9 @@
   "name": "luisgs7",
   "type": "module",
   "private": true,
+  "engines": {
+    "node": ">=22.5.0"
+  },
   "overrides": {
     "tailwindcss": "3.4.19"
   },

@@ -124,7 +124,7 @@
     <main
       class="pt-[calc(5.25rem+env(safe-area-inset-top,0px))] sm:pt-[calc(6.5rem+env(safe-area-inset-top,0px))] md:pt-[calc(7rem+env(safe-area-inset-top,0px))] pb-[max(5rem,env(safe-area-inset-bottom))] sm:pb-24"
     >
-      <div v-if="post" class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div v-if="post" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Breadcrumbs -->
         <nav
           class="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 sm:mb-8 font-label text-on-surface-variant text-[10px] sm:text-xs uppercase tracking-widest"
@@ -191,7 +191,7 @@
       <!-- Índice (mobile): colapsável -->
       <div
         v-if="post && (tocItems?.length ?? 0) > 0"
-        class="lg:hidden max-w-4xl mx-auto px-4 sm:px-6 mb-8"
+        class="lg:hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8"
       >
         <details class="group rounded-xl border border-outline-variant/15 bg-surface-container-low/80">
           <summary
@@ -219,9 +219,9 @@
       </div>
 
       <!-- Imagem de destaque (mesmo tratamento visual que os cards na home) -->
-      <div v-if="post && coverSrc" class="max-w-6xl mx-auto px-3 sm:px-6 mb-10 sm:mb-16">
+      <div v-if="post && coverSrc" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 sm:mb-16">
         <div
-          class="aspect-video bg-surface-container-highest relative overflow-hidden rounded-3xl sm:rounded-[2rem] border border-outline-variant/10"
+          class="bg-surface-container-highest relative overflow-hidden rounded-3xl sm:rounded-[2rem] border border-outline-variant/10"
         >
           <!-- URLs remotas: <img> direto — o IPX do NuxtImg falha com alguns hosts (ex. lh3.googleusercontent.com). -->
           <img
@@ -230,37 +230,39 @@
             :alt="coverAlt"
             width="960"
             height="540"
-            class="w-full h-full object-cover opacity-80"
+            class="w-full h-auto object-contain"
             loading="eager"
             fetchpriority="high"
             referrerpolicy="no-referrer"
             decoding="async"
           />
-          <NuxtPicture
+          <NuxtImg
             v-else
             :src="coverSrc"
             :alt="coverAlt"
-            width="720"
-            height="405"
-            preset="blogCard"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, min(1152px, 100vw)"
+            :modifiers="{ fit: 'inside', quality: 68 }"
             loading="eager"
-            :preload="{ fetchPriority: 'high' }"
-            :img-attrs="{
-              class: 'w-full h-full object-cover opacity-80',
-              fetchpriority: 'high',
-              decoding: 'async',
-            }"
-          />
-          <div
-            class="absolute inset-0 bg-gradient-to-t from-surface-container-high to-transparent pointer-events-none"
+            preload
+            class="w-full h-auto object-contain"
+            fetchpriority="high"
+            decoding="async"
           />
         </div>
       </div>
 
-      <!-- Conteúdo + sidebar TOC -->
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row gap-8 lg:gap-12">
-        <aside class="hidden lg:block w-64 shrink-0 order-2 lg:order-1">
+      <!-- Conteúdo + sidebar: grelha em desktop para o artigo ocupar todo o espaço restante (1fr) -->
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start lg:gap-x-10 xl:gap-x-12"
+      >
+        <article
+          v-if="post"
+          ref="articleBodyRef"
+          class="blog-article-prose min-w-0 w-full max-w-none lg:col-start-2 lg:row-start-1"
+        >
+          <ContentRenderer :value="post" />
+        </article>
+
+        <aside class="hidden lg:block w-full min-w-0 lg:col-start-1 lg:row-start-1">
           <div class="sticky top-32 space-y-8">
             <div v-if="tocItems.length">
               <h2 class="font-label text-[10px] uppercase tracking-[0.2em] text-tertiary mb-4">
@@ -281,18 +283,10 @@
             <LazyBlogNewsletterSignup v-model="sidebarCtaEmail" v-model:name="sidebarCtaName" />
           </div>
         </aside>
-
-        <article
-          v-if="post"
-          ref="articleBodyRef"
-          class="blog-article-prose order-1 lg:order-2 flex-1 min-w-0 max-w-none"
-        >
-          <ContentRenderer :value="post" />
-        </article>
       </div>
 
       <!-- Newsletter: visível em mobile (sidebar em desktop) -->
-      <div v-if="post" class="lg:hidden max-w-4xl mx-auto px-4 sm:px-6 mt-10">
+      <div v-if="post" class="lg:hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
         <h2 class="font-label text-xs uppercase tracking-[0.2em] text-tertiary mb-4">
           Próximos passos
         </h2>
@@ -300,7 +294,7 @@
       </div>
 
       <!-- Bio do autor -->
-      <div v-if="post" class="max-w-4xl mx-auto px-4 sm:px-6 mt-12 sm:mt-20">
+      <div v-if="post" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 sm:mt-20">
         <div
           class="p-5 sm:p-8 bg-surface-container-low rounded-2xl flex flex-col md:flex-row items-center gap-6 sm:gap-8 border border-outline-variant/10"
         >
@@ -348,7 +342,7 @@
       </div>
 
       <!-- Artigos relacionados -->
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 mt-14 sm:mt-28">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-14 sm:mt-28">
         <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5 sm:gap-6 mb-8 sm:mb-12">
           <div>
             <span class="font-label text-xs text-tertiary uppercase tracking-widest block mb-2">{{
@@ -459,7 +453,7 @@
       class="bg-background border-t border-outline-variant/15 mt-12 sm:mt-20 pb-[max(1.25rem,env(safe-area-inset-bottom))]"
     >
       <div
-        class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 flex flex-col md:flex-row justify-between items-center gap-8"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 flex flex-col md:flex-row justify-between items-center gap-8"
       >
         <div class="flex flex-col items-center md:items-start gap-2">
           <span class="font-headline font-bold text-on-surface text-lg">{{ copy.footer.brand }}</span>

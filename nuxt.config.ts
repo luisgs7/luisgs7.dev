@@ -13,6 +13,16 @@ export default defineNuxtConfig({
     '@nuxtjs/seo',
     'nuxt-og-image',
   ],
+  /**
+   * Nuxt Content usa SQLite só em dev/build para indexar o markdown; o output de `nuxt generate`
+   * é estático. Sem `better-sqlite3`: usa `node:sqlite` nativo (Node.js ≥ 22.5).
+   * @see https://content.nuxt.com/docs/getting-started/configuration#experimentalsqliteconnector
+   */
+  content: {
+    experimental: {
+      sqliteConnector: 'native',
+    },
+  },
   site: {
     url: 'https://luisgs7.dev',
     name: 'Luís Gustavo Silva',
