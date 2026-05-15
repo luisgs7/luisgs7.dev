@@ -252,7 +252,7 @@
 
       <!-- Conteúdo + sidebar: grelha em desktop para o artigo ocupar todo o espaço restante (1fr) -->
       <div
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start lg:gap-x-10 xl:gap-x-12"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-8 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:items-stretch lg:gap-x-10 xl:gap-x-12"
       >
         <article
           v-if="post"
@@ -262,8 +262,10 @@
           <ContentRenderer :value="post" />
         </article>
 
-        <aside class="hidden lg:block w-full min-w-0 lg:col-start-1 lg:row-start-1">
-          <div class="sticky top-32 space-y-8">
+        <aside class="hidden lg:flex lg:h-full lg:flex-col lg:min-h-0 w-full min-w-0 lg:col-start-1 lg:row-start-1">
+          <div
+            class="sticky top-28 sm:top-32 max-h-[calc(100vh-7rem)] sm:max-h-[calc(100vh-8rem)] overflow-y-auto overscroll-contain space-y-8 pb-4 [scrollbar-gutter:stable]"
+          >
             <div v-if="tocItems.length">
               <h2 class="font-label text-[10px] uppercase tracking-[0.2em] text-tertiary mb-4">
                 {{ tocTitle }}
