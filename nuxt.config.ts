@@ -136,8 +136,23 @@ export default defineNuxtConfig({
           href: 'https://fonts.gstatic.com',
           crossorigin: 'anonymous',
         },
+        {
+          rel: 'preconnect',
+          href: 'https://cdn.logr-in.com',
+          crossorigin: 'anonymous',
+        },
         { rel: 'dns-prefetch', href: 'https://cdn.jsdelivr.net' },
         { rel: 'dns-prefetch', href: 'https://app.kit.com' },
+      ],
+      script: [
+        {
+          src: 'https://cdn.logr-in.com/LogRocket.min.js',
+          crossorigin: 'anonymous',
+        },
+        {
+          key: 'logrocket-init',
+          innerHTML: "window.LogRocket && window.LogRocket.init('nwap9s/luisgs7dev');",
+        },
       ],
     },
   },
