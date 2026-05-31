@@ -33,6 +33,12 @@
           >
             {{ copy.nav.courses }}
           </NuxtLink>
+          <NuxtLink
+            to="/newsletter"
+            class="text-on-surface/70 hover:text-primary transition-colors font-semibold"
+          >
+            {{ copy.nav.newsletter }}
+          </NuxtLink>
           <button
             type="button"
             class="text-on-surface/70 hover:text-primary transition-colors font-semibold"
@@ -93,6 +99,13 @@
               @click="mobileNavOpen = false"
             >
               {{ copy.nav.courses }}
+            </NuxtLink>
+            <NuxtLink
+              to="/newsletter"
+              class="text-on-surface py-3.5 px-4 rounded-xl font-semibold bg-surface-container-high border border-outline-variant/15 active:bg-surface-container-highest hover:border-primary/30"
+              @click="mobileNavOpen = false"
+            >
+              {{ copy.nav.newsletter }}
             </NuxtLink>
             <button
               type="button"

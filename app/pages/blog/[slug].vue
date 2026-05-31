@@ -30,6 +30,12 @@
           >
             {{ copy.nav.courses }}
           </NuxtLink>
+          <NuxtLink
+            to="/newsletter"
+            class="text-on-surface hover:text-primary transition-colors font-headline"
+          >
+            {{ copy.nav.newsletter }}
+          </NuxtLink>
           <button
             type="button"
             class="text-on-surface hover:text-primary transition-colors font-headline"
@@ -95,6 +101,13 @@
               @click="mobileNavOpen = false"
             >
               {{ copy.nav.courses }}
+            </NuxtLink>
+            <NuxtLink
+              to="/newsletter"
+              class="py-3.5 px-4 rounded-xl bg-surface-container-high font-semibold"
+              @click="mobileNavOpen = false"
+            >
+              {{ copy.nav.newsletter }}
             </NuxtLink>
             <button
               type="button"

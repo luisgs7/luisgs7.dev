@@ -43,6 +43,7 @@ type KitSubscribeJson =
   | { status: 'failed'; errors?: { messages?: string[] } }
 
 async function onSubmit(event: Event) {
+  event.preventDefault()
   const form = event.currentTarget as HTMLFormElement
   submitError.value = ''
   submitting.value = true
@@ -53,7 +54,13 @@ async function onSubmit(event: Event) {
       headers: { Accept: 'application/json' },
       body,
     })
-    const data = (await res.json()) as KitSubscribeJson
+    let data: KitSubscribeJson
+    try {
+      data = (await res.json()) as KitSubscribeJson
+    } catch {
+      submitError.value = 'Resposta inválida do serviço. Tente de novo.'
+      return
+    }
     if (data.status === 'success') {
       const addr = (form.elements.namedItem('email_address') as HTMLInputElement | null)?.value ?? ''
       confirmedEmail.value = addr
@@ -82,8 +89,9 @@ function closeConfirmModal() {
       class="p-6 rounded-xl bg-surface-container-low border border-outline-variant/10"
       method="post"
       :action="kitSubscribeForm.action"
-      @submit.prevent="onSubmit"
+      @submit="onSubmit"
     >
+      <input type="hidden" name="utf8" value="✓">
       <p class="text-xs font-label text-on-surface-variant mb-4 uppercase tracking-widest">
         {{ props.kicker }}
       </p>

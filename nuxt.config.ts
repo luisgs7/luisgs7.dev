@@ -88,7 +88,7 @@ export default defineNuxtConfig({
     compressPublicAssets: true,
     prerender: {
       crawlLinks: true,
-      routes: ['/'],
+      routes: ['/', '/newsletter'],
     },
     routeRules: {
       '/images/**': {
@@ -118,6 +118,11 @@ export default defineNuxtConfig({
         },
       },
       '/cursos': {
+        headers: {
+          'cache-control': 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400',
+        },
+      },
+      '/newsletter': {
         headers: {
           'cache-control': 'public, max-age=0, s-maxage=600, stale-while-revalidate=86400',
         },

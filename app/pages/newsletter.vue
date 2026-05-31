@@ -22,13 +22,13 @@
           </NuxtLink>
           <NuxtLink
             to="/cursos"
-            class="text-primary border-b-2 border-primary pb-1 font-headline"
+            class="text-on-surface hover:text-primary transition-colors font-headline"
           >
             {{ copy.nav.courses }}
           </NuxtLink>
           <NuxtLink
             to="/newsletter"
-            class="text-on-surface hover:text-primary transition-colors font-headline"
+            class="text-primary border-b-2 border-primary pb-1 font-headline"
           >
             {{ copy.nav.newsletter }}
           </NuxtLink>
@@ -46,7 +46,7 @@
             type="button"
             class="flex items-center justify-center size-11 rounded-lg text-on-surface hover:bg-surface-container-high border border-outline-variant/20"
             :aria-expanded="mobileNavOpen"
-            aria-controls="cursos-mobile-nav"
+            aria-controls="newsletter-mobile-nav"
             :aria-label="copy.a11y.openMenu"
             @click="mobileNavOpen = !mobileNavOpen"
           >
@@ -66,7 +66,7 @@
       >
         <div
           v-show="mobileNavOpen"
-          id="cursos-mobile-nav"
+          id="newsletter-mobile-nav"
           class="md:hidden fixed inset-x-0 bottom-0 z-[90] flex flex-col border-t border-outline-variant/20 bg-background top-[calc(4rem+env(safe-area-inset-top,0px))] sm:top-[calc(5rem+env(safe-area-inset-top,0px))] shadow-[0_-8px_40px_rgba(0,0,0,0.45)]"
         >
           <nav class="flex flex-col p-4 gap-2" @click.stop>
@@ -86,14 +86,14 @@
             </NuxtLink>
             <NuxtLink
               to="/cursos"
-              class="py-3.5 px-4 rounded-xl bg-surface-container-highest text-primary font-bold border border-primary/20"
+              class="py-3.5 px-4 rounded-xl bg-surface-container-high font-semibold"
               @click="mobileNavOpen = false"
             >
               {{ copy.nav.courses }}
             </NuxtLink>
             <NuxtLink
               to="/newsletter"
-              class="py-3.5 px-4 rounded-xl bg-surface-container-high font-semibold"
+              class="py-3.5 px-4 rounded-xl bg-surface-container-highest text-primary font-bold border border-primary/20"
               @click="mobileNavOpen = false"
             >
               {{ copy.nav.newsletter }}
@@ -132,7 +132,7 @@
           <div
             class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-outline-variant/15 border border-outline-variant/10 mb-6"
           >
-            <GraduationCap class="size-4 text-primary shrink-0" aria-hidden="true" stroke-width="2" />
+            <Mail class="size-4 text-primary shrink-0" aria-hidden="true" stroke-width="2" />
             <span class="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">
               {{ page.badge }}
             </span>
@@ -145,7 +145,7 @@
           <p class="text-on-surface-variant text-base sm:text-lg leading-relaxed mb-10">
             {{ page.lead }}
           </p>
-          <LazyBlogNewsletterSignup
+          <BlogNewsletterSignup
             v-model="email"
             v-model:name="signupName"
             :kicker="signup.kicker"
@@ -211,7 +211,8 @@
 </template>
 
 <script setup lang="ts">
-import { GraduationCap, Menu, X } from 'lucide-vue-next'
+import BlogNewsletterSignup from '~/components/BlogNewsletterSignup.vue'
+import { Mail, Menu, X } from 'lucide-vue-next'
 import { computed, defineAsyncComponent, onUnmounted, ref, watch } from 'vue'
 
 const ContactModal = defineAsyncComponent(() => import('~/components/ContactModal.vue'))
@@ -234,15 +235,15 @@ const linkedInHref = computed(
 )
 
 const page = {
-  badge: 'Curadoria em preparação',
-  title: 'Cursos',
+  badge: 'Newsletter semanal',
+  title: 'Newsletter',
   lead:
-    'Em breve serão adicionados aqui cursos recomendados. Até lá, pode deixar o seu e-mail para receber novidades do site e ser avisado quando houver novidades nesta secção.',
+    'Compartilhamento de conhecimento sobre backend, APIs, DevOps e Machine Learning, além de compartilhamento de projetos e vagas de dev — sempre que possível, direto na sua caixa de entrada.',
 }
 
 const signup = {
-  kicker: 'Novidades',
-  blurb: 'Cadastre o seu nome e e-mail para receber novidades do site (artigos, atualizações e avisos sobre cursos).',
+  kicker: 'Subscrever',
+  blurb: 'Preencha o nome e o e-mail. Enviaremos um link de confirmação antes de começar a receber os artigos.',
   placeholder: 'email@dominio.com',
   cta: 'Subscrever',
 }
@@ -256,7 +257,7 @@ const footer = {
 const year = new Date().getFullYear()
 
 useHead({
-  title: () => `Cursos | ${siteTitle}`,
+  title: () => `Newsletter | ${siteTitle}`,
   meta: [
     {
       name: 'description',

@@ -50,7 +50,7 @@ export interface HomeFrontmatter {
     timeline: string
   }
   contact?: { formEmail: string }
-  nav: { home: string; blog: string; courses: string; contact: string }
+  nav: { home: string; blog: string; courses: string; newsletter: string; contact: string }
   hero: {
     badge: string
     titleLine1: string

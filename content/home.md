@@ -23,6 +23,7 @@ nav:
   home: Início
   blog: Blog
   courses: Cursos
+  newsletter: Newsletter
   contact: Contato
 
 hero:
