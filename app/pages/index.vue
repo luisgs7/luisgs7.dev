@@ -179,34 +179,42 @@
             </div>
           </div>
           <div
-            class="lg:col-span-5 relative order-1 lg:order-none w-full max-w-[min(100%,320px)] sm:max-w-[min(100%,380px)] mx-auto lg:max-w-none shrink-0"
+            class="lg:col-span-5 relative order-1 lg:order-none w-full max-w-[min(100%,220px)] sm:max-w-[min(100%,260px)] mx-auto lg:max-w-[min(100%,300px)] lg:mx-0 lg:ml-auto shrink-0"
           >
-            <div
-              class="relative w-full aspect-[3/4] sm:aspect-[4/5] lg:aspect-[4/5] rounded-3xl sm:rounded-[2rem] overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.45)] lg:shadow-[0_0_80px_rgba(0,0,0,0.5)] border border-outline-variant/20 group"
-            >
-              <NuxtPicture
-                :src="copy.hero.profileImage"
-                :alt="copy.hero.profileAlt"
-                width="720"
-                height="900"
-                sizes="(max-width: 1023px) 384px, 560px"
-                preset="hero"
-                loading="eager"
-                decoding="async"
-                :preload="{ fetchPriority: 'high' }"
-                :img-attrs="{
-                  class:
-                    'w-full h-full object-cover object-center transition-transform duration-700 lg:group-hover:scale-105',
-                  fetchpriority: 'high',
-                }"
+            <div class="relative w-full aspect-[623/719] group bg-background rounded-2xl">
+              <div
+                class="hero-portrait-glow pointer-events-none absolute -inset-8 sm:-inset-10 rounded-[2rem] blur-2xl"
+                aria-hidden="true"
               />
               <div
-                class="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-50 sm:opacity-60 lg:from-background"
+                class="pointer-events-none absolute -top-4 -right-4 sm:-top-6 sm:-right-6 size-20 sm:size-24 rounded-full border border-primary/25 animate-slow-spin hidden lg:block"
+                aria-hidden="true"
               />
+              <div
+                class="pointer-events-none absolute -bottom-2 -left-2 size-12 rounded-full border border-primary/10 hidden sm:block"
+                aria-hidden="true"
+              />
+              <div
+                class="relative size-full flex items-center justify-center transition-transform duration-500 lg:group-hover:scale-[1.02]"
+              >
+                <NuxtPicture
+                  :src="copy.hero.profileImage"
+                  :alt="copy.hero.profileAlt"
+                  width="623"
+                  height="719"
+                  sizes="(max-width: 1023px) 260px, 300px"
+                  preset="hero"
+                  loading="eager"
+                  decoding="async"
+                  :preload="{ fetchPriority: 'high' }"
+                  :img-attrs="{
+                    class:
+                      'block w-full h-auto max-w-full transition-transform duration-700 lg:group-hover:scale-[1.03]',
+                    fetchpriority: 'high',
+                  }"
+                />
+              </div>
             </div>
-            <div
-              class="hidden lg:block absolute -top-10 -right-10 w-40 h-40 border-2 border-primary/10 rounded-full animate-slow-spin"
-            />
           </div>
         </div>
       </section>

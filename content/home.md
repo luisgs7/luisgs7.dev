@@ -17,7 +17,7 @@ a11y:
 
 # Email do formulário de contato (mailto no cliente) — alinhado ao currículo.
 contact:
-  formEmail: luisgsilva260@gmail.com
+  formEmail: contato@luisgs7.dev
 
 nav:
   home: Início
@@ -36,7 +36,7 @@ hero:
   ctaPrimary: Entrar em contato
   ctaSecondary: Ler o blog
   profileAlt: Luís Gustavo Silva — desenvolvedor backend
-  profileImage: /images/luis-hero.jpeg
+  profileImage: /images/luis-hero.png
 
 authority:
   titleBefore: Da formação ao

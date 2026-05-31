@@ -157,14 +157,14 @@
         >
           <div class="flex items-center gap-3 min-w-0">
             <NuxtPicture
-              src="/images/luis-face.jpeg"
-              alt=""
-              width="80"
-              height="80"
+              :src="copy.hero.profileImage"
+              :alt="copy.hero.profileAlt"
+              width="623"
+              height="719"
               sizes="40px"
               :img-attrs="{
                 class:
-                  'w-11 h-11 sm:w-10 sm:h-10 rounded-full object-cover object-[52%_28%] border border-outline-variant/20 shrink-0',
+                  'w-11 h-11 sm:w-10 sm:h-10 rounded-full object-cover object-center bg-background border border-outline-variant/20 shrink-0',
               }"
             />
             <div class="min-w-0">
@@ -301,15 +301,15 @@
           class="p-5 sm:p-8 bg-surface-container-low rounded-2xl flex flex-col md:flex-row items-center gap-6 sm:gap-8 border border-outline-variant/10"
         >
           <NuxtPicture
-            src="/images/luis-hero.jpeg"
-            alt=""
-            width="192"
-            height="192"
+            :src="copy.hero.profileImage"
+            :alt="copy.hero.profileAlt"
+            width="623"
+            height="719"
             sizes="96px"
             loading="lazy"
             :img-attrs="{
               class:
-                'w-24 h-24 rounded-2xl object-cover object-[54%_30%] shadow-xl border-2 border-primary shrink-0',
+                'w-24 h-24 rounded-2xl object-cover object-center bg-background shadow-xl border-2 border-primary shrink-0',
             }"
           />
           <div class="text-center md:text-left">

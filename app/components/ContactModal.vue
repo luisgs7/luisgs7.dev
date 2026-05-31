@@ -89,7 +89,7 @@
 <script setup lang="ts">
 import { Mail, X } from 'lucide-vue-next'
 
-const CONTACT_EMAIL = 'luisgsilva260@gmail.com'
+const CONTACT_EMAIL = 'contato@luisgs7.dev'
 
 const props = withDefaults(
   defineProps<{
