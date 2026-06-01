@@ -36,6 +36,7 @@
           >
             {{ copy.nav.newsletter }}
           </NuxtLink>
+          <ResumeCtaButton variant="nav" />
           <button
             type="button"
             class="text-on-surface hover:text-primary transition-colors font-headline"
@@ -109,6 +110,11 @@
             >
               {{ copy.nav.newsletter }}
             </NuxtLink>
+            <ResumeCtaButton
+              variant="nav"
+              class="!w-full !justify-start"
+              @click="mobileNavOpen = false"
+            />
             <button
               type="button"
               class="text-left py-3.5 px-4 rounded-xl bg-surface-container-high font-semibold w-full"
@@ -296,6 +302,7 @@
               </nav>
             </div>
             <LazyBlogNewsletterSignup v-model="sidebarCtaEmail" v-model:name="sidebarCtaName" />
+            <ResumeCtaButton variant="sidebar" />
           </div>
         </aside>
       </div>
@@ -306,6 +313,7 @@
           Próximos passos
         </h2>
         <LazyBlogNewsletterSignup v-model="sidebarCtaEmail" v-model:name="sidebarCtaName" />
+        <ResumeCtaButton variant="sidebar" class="mt-6" />
       </div>
 
       <!-- Bio do autor -->

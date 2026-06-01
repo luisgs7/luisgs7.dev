@@ -24,7 +24,14 @@ nav:
   blog: Blog
   courses: Cursos
   newsletter: Newsletter
+  resume: Currículo
   contact: Contato
+
+# Link de visualização (não edição) — um clique para recrutadores.
+resume:
+  href: https://docs.google.com/document/d/1WB53qFKXZWviLQ2T6KllKIYjRWcNXtpxj2HCxRqnzjw/view?usp=sharing
+  navLabel: Currículo
+  authorityCta: Ver currículo completo
 
 hero:
   badge: Backend Python · APIs · DevOps · IA como aliada
@@ -35,7 +42,7 @@ hero:
   leadPara1After: ", com Django, DRF e FastAPI, e Linux na cloud, Docker, deploy e automatização."
   leadPara2: "Foco em perceber o que o cliente precisa e responder com soluções técnicas rápidas e claras. Uso inteligência artificial como aliada no dia a dia (exploração, tarefas repetitivas e revisão), com decisão e responsabilidade humanas no que importa."
   ctaPrimary: Entrar em contato
-  ctaSecondary: Ler o blog
+  ctaSecondary: Ver currículo
   profileAlt: Luís Gustavo Silva — desenvolvedor backend
   profileImage: /images/luis-hero.png
 

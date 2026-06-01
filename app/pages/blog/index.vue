@@ -38,6 +38,7 @@
           >
             {{ copy.nav.newsletter }}
           </NuxtLink>
+          <ResumeCtaButton variant="nav" />
           <button
             type="button"
             class="text-on-surface hover:text-primary transition-colors font-headline"
@@ -119,6 +120,11 @@
             >
               {{ copy.nav.newsletter }}
             </NuxtLink>
+            <ResumeCtaButton
+              variant="nav"
+              class="!w-full !justify-start"
+              @click="mobileNavOpen = false"
+            />
             <button
               type="button"
               class="text-left py-3.5 px-4 rounded-xl bg-surface-container-high font-semibold w-full"
@@ -179,6 +185,9 @@
               >
                 {{ hero.lead }}
               </p>
+              <div class="mt-8 sm:mt-10">
+                <ResumeCtaButton variant="hero" />
+              </div>
               <div
                 v-if="availableFilterTopics.length || postCount > 0"
                 class="flex flex-wrap gap-2 sm:gap-3 mt-8 sm:mt-10"
@@ -259,6 +268,7 @@
               :placeholder="sidebar.newsletterPlaceholder"
               :button-label="sidebar.newsletterCta"
             />
+            <ResumeCtaButton variant="sidebar" />
           </div>
         </aside>
 

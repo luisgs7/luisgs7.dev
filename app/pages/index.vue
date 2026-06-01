@@ -39,6 +39,14 @@
           >
             {{ copy.nav.newsletter }}
           </NuxtLink>
+          <a
+            :href="copy.resume.href"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary bg-primary/10 hover:bg-primary/20 transition-colors font-bold px-4 py-2 rounded-lg border border-primary/25"
+          >
+            {{ copy.nav.resume }}
+          </a>
           <button
             type="button"
             class="text-on-surface/70 hover:text-primary transition-colors font-semibold"
@@ -107,6 +115,15 @@
             >
               {{ copy.nav.newsletter }}
             </NuxtLink>
+            <a
+              :href="copy.resume.href"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-primary font-bold py-3.5 px-4 rounded-xl bg-primary/10 border border-primary/25 active:bg-primary/20 hover:border-primary/40"
+              @click="mobileNavOpen = false"
+            >
+              {{ copy.nav.resume }}
+            </a>
             <button
               type="button"
               class="text-left text-on-surface py-3.5 px-4 rounded-xl font-semibold bg-surface-container-high border border-outline-variant/15 active:bg-surface-container-highest hover:border-primary/30 w-full"
@@ -183,12 +200,15 @@
                   stroke-width="2.25"
                 />
               </button>
-              <NuxtLink
-                to="/blog"
-                class="bg-surface-container-highest/50 backdrop-blur-md border border-outline-variant/30 text-on-surface min-h-12 px-6 sm:px-10 py-3.5 sm:py-5 rounded-xl font-extrabold hover:bg-surface-bright transition-all w-full sm:w-auto inline-flex items-center justify-center"
+              <a
+                :href="copy.resume.href"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group bg-surface-container-highest/50 backdrop-blur-md border border-outline-variant/30 text-on-surface min-h-12 px-6 sm:px-10 py-3.5 sm:py-5 rounded-xl font-extrabold hover:bg-surface-bright transition-all w-full sm:w-auto inline-flex items-center justify-center gap-2.5"
               >
+                <FileText class="size-5 shrink-0 text-primary" aria-hidden="true" stroke-width="2.25" />
                 {{ copy.hero.ctaSecondary }}
-              </NuxtLink>
+              </a>
             </div>
           </div>
           <div
@@ -259,13 +279,30 @@
                 </p>
               </div>
               <div
-                class="flex items-start sm:items-center gap-3 sm:gap-4 text-primary font-bold text-sm sm:text-base"
+                class="flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-4 sm:gap-6"
               >
-                <BadgeCheck class="size-5 sm:size-6 shrink-0 mt-0.5 sm:mt-0 text-primary" aria-hidden="true" stroke-width="2" />
-                <span class="tracking-wide leading-snug">
-                  {{ copy.authority.tagline }}
-                </span>
-              </div>
+                <div
+                  class="flex items-start sm:items-center gap-3 sm:gap-4 text-primary font-bold text-sm sm:text-base"
+                >
+                  <BadgeCheck class="size-5 sm:size-6 shrink-0 mt-0.5 sm:mt-0 text-primary" aria-hidden="true" stroke-width="2" />
+                  <span class="tracking-wide leading-snug">
+                    {{ copy.authority.tagline }}
+                  </span>
+                </div>
+                <a
+                  :href="copy.resume.href"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group inline-flex items-center gap-2 text-sm sm:text-base font-bold text-primary hover:text-primary/80 transition-colors min-h-11 px-1"
+                >
+                  {{ copy.resume.authorityCta }}
+                  <ArrowRight
+                    class="size-4 shrink-0 group-hover:translate-x-1 transition-transform"
+                    aria-hidden="true"
+                    stroke-width="2.25"
+                  />
+                </a>
+              </div>>
             </div>
             <div
               class="relative lg:pt-1"
@@ -373,7 +410,7 @@
             >
               {{ copy.cta.body }}
             </p>
-            <div class="flex flex-col sm:flex-row gap-3 sm:gap-6 justify-center items-stretch sm:items-center max-w-md sm:max-w-none mx-auto">
+            <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-6 justify-center items-stretch sm:items-center max-w-md sm:max-w-none mx-auto">
               <button
                 type="button"
                 class="bg-primary text-on-primary min-h-12 px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl shadow-[0_20px_50px_rgba(87,241,219,0.3)] sm:hover:scale-105 active:scale-95 transition-all w-full sm:w-auto"
@@ -381,6 +418,15 @@
               >
                 {{ copy.cta.primary }}
               </button>
+              <a
+                :href="copy.resume.href"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="bg-surface-container-highest/80 backdrop-blur-md text-on-surface min-h-12 px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl border border-outline-variant/30 sm:hover:bg-surface-bright transition-all w-full sm:w-auto inline-flex items-center justify-center gap-2.5"
+              >
+                <FileText class="size-5 shrink-0 text-primary" aria-hidden="true" stroke-width="2.25" />
+                {{ copy.nav.resume }}
+              </a>
               <a
                 v-if="copy.cta.secondaryHref"
                 class="bg-surface-container-highest/80 backdrop-blur-md text-on-surface min-h-12 px-8 sm:px-12 py-4 sm:py-5 rounded-xl sm:rounded-2xl font-extrabold text-lg sm:text-xl border border-outline-variant/30 sm:hover:bg-surface-bright transition-all w-full sm:w-auto inline-flex items-center justify-center"
@@ -460,7 +506,7 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowRight, BadgeCheck, Menu, X } from 'lucide-vue-next'
+import { ArrowRight, BadgeCheck, FileText, Menu, X } from 'lucide-vue-next'
 import { computed, defineAsyncComponent, onUnmounted, ref, watch } from 'vue'
 
 const ContactModal = defineAsyncComponent(() => import('~/components/ContactModal.vue'))

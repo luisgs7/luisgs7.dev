@@ -50,7 +50,19 @@ export interface HomeFrontmatter {
     timeline: string
   }
   contact?: { formEmail: string }
-  nav: { home: string; blog: string; courses: string; newsletter: string; contact: string }
+  nav: {
+    home: string
+    blog: string
+    courses: string
+    newsletter: string
+    resume: string
+    contact: string
+  }
+  resume: {
+    href: string
+    navLabel: string
+    authorityCta: string
+  }
   hero: {
     badge: string
     titleLine1: string
@@ -95,6 +107,7 @@ export interface HomeCopy {
   a11y: HomeFrontmatter['a11y']
   contact: { formEmail: string }
   nav: HomeFrontmatter['nav']
+  resume: HomeFrontmatter['resume']
   hero: HomeFrontmatter['hero']
   authority: HomeFrontmatter['authority']
   timeline: HomeTimelineItem[]
@@ -135,6 +148,7 @@ export function useHomeCopy(): HomeCopy {
     a11y: fm.a11y,
     contact: fm.contact ?? { formEmail: '' },
     nav: fm.nav,
+    resume: fm.resume,
     hero: fm.hero,
     authority: fm.authority,
     timeline: fm.timeline ?? [],
