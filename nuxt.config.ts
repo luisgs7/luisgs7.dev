@@ -22,6 +22,33 @@ export default defineNuxtConfig({
     experimental: {
       sqliteConnector: 'native',
     },
+    build: {
+      markdown: {
+        highlight: {
+          theme: {
+            default: 'github-dark',
+            dark: 'github-dark',
+          },
+          langs: [
+            'bash',
+            'css',
+            'html',
+            'js',
+            'json',
+            'jsx',
+            'md',
+            'mdc',
+            'python',
+            'shell',
+            'sql',
+            'ts',
+            'tsx',
+            'vue',
+            'yaml',
+          ],
+        },
+      },
+    },
   },
   site: {
     url: 'https://luisgs7.dev',

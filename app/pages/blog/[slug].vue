@@ -740,17 +740,28 @@ useHead({
   @apply text-sm bg-surface-container-high px-1.5 py-0.5 rounded text-primary font-mono not-italic;
 }
 
-.blog-article-prose :deep(pre) {
-  @apply relative my-8 sm:my-10 w-full min-w-0 rounded-lg sm:rounded-xl border border-outline-variant/10 bg-surface-container-lowest overflow-x-auto shadow-xl sm:shadow-2xl pt-9 sm:pt-10 pb-5 sm:pb-6 px-3 sm:px-6 text-[11px] sm:text-xs leading-relaxed;
+.blog-article-prose :deep(.code-block) {
+  @apply my-0;
 }
 
-.blog-article-prose :deep(pre::before) {
-  content: '';
-  @apply absolute top-0 left-0 right-0 h-9 bg-surface-container-low border-b border-outline-variant/10 rounded-t-xl pointer-events-none;
+.blog-article-prose :deep(.code-block__pre) {
+  @apply m-0;
 }
 
-.blog-article-prose :deep(pre code) {
-  @apply bg-transparent p-0 text-on-surface text-[11px] sm:text-[0.8125rem] leading-relaxed;
+.blog-article-prose :deep(.code-block__pre code) {
+  @apply block bg-transparent p-0;
+  font: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+
+.blog-article-prose :deep(.code-block__pre .line) {
+  @apply block;
+}
+
+.blog-article-prose :deep(.code-block__pre.shiki),
+.blog-article-prose :deep(pre.shiki) {
+  background-color: transparent !important;
 }
 
 .blog-article-prose :deep(blockquote) {
